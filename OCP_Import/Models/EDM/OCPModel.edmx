@@ -1,0 +1,248 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="db_OCP_ImportEntitie.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tblSchedulerHistory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SellerId" Type="int" Nullable="false" />
+          <Property Name="Run_at" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblSchedulerSettings">
+          <Key>
+            <PropertyRef Name="SettingId" />
+          </Key>
+          <Property Name="SettingId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FtpHost" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="FtpUserName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="FtpPassword" Type="nvarchar" MaxLength="1000" Nullable="false" />
+          <Property Name="FtpPort" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="FtpFilePath" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="SyncTime" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Brand" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="SellerId" Type="int" Nullable="false" />
+          <Property Name="UpdateAt" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblSeller">
+          <Key>
+            <PropertyRef Name="SellerId" />
+          </Key>
+          <Property Name="SellerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ShopifyAccessToken" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="MyShopifyDomain" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ShopifyChargeId" Type="bigint" Nullable="false" />
+          <Property Name="ShopName" Type="nvarchar" MaxLength="300" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="PhoneNumber" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="TimezoneOffset" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CreatedDateTime" Type="datetime" Nullable="false" />
+          <Property Name="InstallStatus" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="UnInstallDateTime" Type="datetime" Nullable="false" />
+          <Property Name="ShopDomain" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Host" Type="varchar(max)" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__tblSchedu__Selle__164452B1">
+          <End Role="tblSeller" Type="Self.tblSeller" Multiplicity="1" />
+          <End Role="tblSchedulerSettings" Type="Self.tblSchedulerSettings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblSeller">
+              <PropertyRef Name="SellerId" />
+            </Principal>
+            <Dependent Role="tblSchedulerSettings">
+              <PropertyRef Name="SellerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblSchedu__Selle__173876EA">
+          <End Role="tblSeller" Type="Self.tblSeller" Multiplicity="1" />
+          <End Role="tblSchedulerHistory" Type="Self.tblSchedulerHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblSeller">
+              <PropertyRef Name="SellerId" />
+            </Principal>
+            <Dependent Role="tblSchedulerHistory">
+              <PropertyRef Name="SellerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="db_OCP_ImportEntitieStoreContainer">
+          <EntitySet Name="tblSchedulerHistory" EntityType="Self.tblSchedulerHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblSchedulerSettings" EntityType="Self.tblSchedulerSettings" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblSeller" EntityType="Self.tblSeller" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__tblSchedu__Selle__164452B1" Association="Self.FK__tblSchedu__Selle__164452B1">
+            <End Role="tblSeller" EntitySet="tblSeller" />
+            <End Role="tblSchedulerSettings" EntitySet="tblSchedulerSettings" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblSchedu__Selle__173876EA" Association="Self.FK__tblSchedu__Selle__173876EA">
+            <End Role="tblSeller" EntitySet="tblSeller" />
+            <End Role="tblSchedulerHistory" EntitySet="tblSchedulerHistory" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="db_OCP_ImportEntitie" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="db_OCP_ImportEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tblSchedulerHistories" EntityType="db_OCP_ImportEntitie.tblSchedulerHistory" />
+          <EntitySet Name="tblSellers" EntityType="db_OCP_ImportEntitie.tblSeller" />
+          <AssociationSet Name="FK__tblSchedu__Selle__173876EA" Association="db_OCP_ImportEntitie.FK__tblSchedu__Selle__173876EA">
+            <End Role="tblSeller" EntitySet="tblSellers" />
+            <End Role="tblSchedulerHistory" EntitySet="tblSchedulerHistories" />
+          </AssociationSet>
+          <EntitySet Name="tblSchedulerSettings" EntityType="db_OCP_ImportEntitie.tblSchedulerSetting" />
+          <AssociationSet Name="FK__tblSchedu__Selle__164452B1" Association="db_OCP_ImportEntitie.FK__tblSchedu__Selle__164452B1">
+            <End Role="tblSeller" EntitySet="tblSellers" />
+            <End Role="tblSchedulerSetting" EntitySet="tblSchedulerSettings" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="tblSchedulerHistory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SellerId" Type="Int32" Nullable="false" />
+          <Property Name="Run_at" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="tblSeller" Relationship="db_OCP_ImportEntitie.FK__tblSchedu__Selle__173876EA" FromRole="tblSchedulerHistory" ToRole="tblSeller" />
+        </EntityType>
+        <EntityType Name="tblSeller">
+          <Key>
+            <PropertyRef Name="SellerId" />
+          </Key>
+          <Property Name="SellerId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ShopifyAccessToken" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MyShopifyDomain" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ShopifyChargeId" Type="Int64" Nullable="false" />
+          <Property Name="ShopName" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="TimezoneOffset" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="InstallStatus" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UnInstallDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ShopDomain" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Host" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tblSchedulerHistories" Relationship="db_OCP_ImportEntitie.FK__tblSchedu__Selle__173876EA" FromRole="tblSeller" ToRole="tblSchedulerHistory" />
+          <NavigationProperty Name="tblSchedulerSettings" Relationship="db_OCP_ImportEntitie.FK__tblSchedu__Selle__164452B1" FromRole="tblSeller" ToRole="tblSchedulerSetting" />
+        </EntityType>
+        <Association Name="FK__tblSchedu__Selle__173876EA">
+          <End Type="db_OCP_ImportEntitie.tblSeller" Role="tblSeller" Multiplicity="1" />
+          <End Type="db_OCP_ImportEntitie.tblSchedulerHistory" Role="tblSchedulerHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblSeller">
+              <PropertyRef Name="SellerId" />
+            </Principal>
+            <Dependent Role="tblSchedulerHistory">
+              <PropertyRef Name="SellerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="tblSchedulerSetting">
+          <Key>
+            <PropertyRef Name="SettingId" />
+          </Key>
+          <Property Name="SettingId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FtpHost" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="FtpUserName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="FtpPassword" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="FtpPort" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="FtpFilePath" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SyncTime" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Brand" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="SellerId" Type="Int32" Nullable="false" />
+          <Property Name="UpdateAt" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="tblSeller" Relationship="db_OCP_ImportEntitie.FK__tblSchedu__Selle__164452B1" FromRole="tblSchedulerSetting" ToRole="tblSeller" />
+        </EntityType>
+        <Association Name="FK__tblSchedu__Selle__164452B1">
+          <End Type="db_OCP_ImportEntitie.tblSeller" Role="tblSeller" Multiplicity="1" />
+          <End Type="db_OCP_ImportEntitie.tblSchedulerSetting" Role="tblSchedulerSetting" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblSeller">
+              <PropertyRef Name="SellerId" />
+            </Principal>
+            <Dependent Role="tblSchedulerSetting">
+              <PropertyRef Name="SellerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="db_OCP_ImportEntitieStoreContainer" CdmEntityContainer="db_OCP_ImportEntities">
+          <EntitySetMapping Name="tblSchedulerHistories">
+            <EntityTypeMapping TypeName="db_OCP_ImportEntitie.tblSchedulerHistory">
+              <MappingFragment StoreEntitySet="tblSchedulerHistory">
+                <ScalarProperty Name="Run_at" ColumnName="Run_at" />
+                <ScalarProperty Name="SellerId" ColumnName="SellerId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblSellers">
+            <EntityTypeMapping TypeName="db_OCP_ImportEntitie.tblSeller">
+              <MappingFragment StoreEntitySet="tblSeller">
+                <ScalarProperty Name="Host" ColumnName="Host" />
+                <ScalarProperty Name="ShopDomain" ColumnName="ShopDomain" />
+                <ScalarProperty Name="UnInstallDateTime" ColumnName="UnInstallDateTime" />
+                <ScalarProperty Name="InstallStatus" ColumnName="InstallStatus" />
+                <ScalarProperty Name="CreatedDateTime" ColumnName="CreatedDateTime" />
+                <ScalarProperty Name="TimezoneOffset" ColumnName="TimezoneOffset" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="ShopName" ColumnName="ShopName" />
+                <ScalarProperty Name="ShopifyChargeId" ColumnName="ShopifyChargeId" />
+                <ScalarProperty Name="MyShopifyDomain" ColumnName="MyShopifyDomain" />
+                <ScalarProperty Name="ShopifyAccessToken" ColumnName="ShopifyAccessToken" />
+                <ScalarProperty Name="SellerId" ColumnName="SellerId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblSchedulerSettings">
+            <EntityTypeMapping TypeName="db_OCP_ImportEntitie.tblSchedulerSetting">
+              <MappingFragment StoreEntitySet="tblSchedulerSettings">
+                <ScalarProperty Name="UpdateAt" ColumnName="UpdateAt" />
+                <ScalarProperty Name="SellerId" ColumnName="SellerId" />
+                <ScalarProperty Name="Brand" ColumnName="Brand" />
+                <ScalarProperty Name="SyncTime" ColumnName="SyncTime" />
+                <ScalarProperty Name="FtpFilePath" ColumnName="FtpFilePath" />
+                <ScalarProperty Name="FtpPort" ColumnName="FtpPort" />
+                <ScalarProperty Name="FtpPassword" ColumnName="FtpPassword" />
+                <ScalarProperty Name="FtpUserName" ColumnName="FtpUserName" />
+                <ScalarProperty Name="FtpHost" ColumnName="FtpHost" />
+                <ScalarProperty Name="SettingId" ColumnName="SettingId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,490 @@
+﻿@model OCP_Import.Models.Settings.SchedulerSettingModel
+@{
+    ViewBag.Title = "Home Page";
+    Layout = null;
+    string cssPath = "https://unpkg.com/@shopify/polaris@5.3.0/dist/styles.css";
+}
+@Scripts.Render("~/bundles/jquery")
+
+<link rel="stylesheet" href="@cssPath" />
+
+
+
+<div class="Polaris-Page Polaris-Page--fullWidth">
+    <div class="Polaris-Page__Header Polaris-Page__Header--hasBreadcrumbs Polaris-Page__Header--hasSecondaryActions Polaris-Page__Header--hasSeparator">
+
+        <div class="Polaris-Page__MainContent">
+            <div class="Polaris-Page__Title">
+                <div class="Polaris-Page__Title">
+                    <h1 class="Polaris-DisplayText Polaris-DisplayText--sizeLarge">OCP Product Import</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="Polaris-Page__Content">
+        <div class="Polaris-Layout">
+
+            <form>
+                <div class="Polaris-Layout__AnnotatedSection">
+                    <div class="Polaris-Layout__AnnotationWrapper">
+                        <div class="Polaris-Layout__Annotation">
+                            <div class="Polaris-TextContainer">
+                                <h2 class="Polaris-Heading">FTP Details</h2>
+                                <p>Enter FTP Host, username, password and ftp port of server at which ocp file is placed.</p>
+                            </div>
+                        </div>
+                        <div class="Polaris-Layout__AnnotationContent">
+
+                            <div class="Polaris-Card uploadcardbox">
+
+                                <div class="Polaris-Card__Section">
+                                    <div class="Polaris-FormLayout">
+
+                                        <div role="group" class="Polaris-FormLayout--condensed">
+
+                                            <div class="Polaris-FormLayout__Items">
+
+                                                <div class="Polaris-FormLayout__Item">
+                                                    <div class="">
+                                                        <div class="Polaris-Labelled__LabelWrapper">
+                                                            <div class="Polaris-Label"><label for="ftpHost" class="Polaris-Label__Text">FTP Host</label></div>
+                                                        </div>
+                                                        <div class="Polaris-TextField">
+                                                            @Html.TextBoxFor(x=>x.ftpHost,new  { autocomplete = "off", placeholder = "Enter FTP Host" , @class="Polaris-TextField__Input" })
+                                                            @*<input id="ftpHost" type="text" value="" autocomplete="off" placeholder="Enter FTP Host" name="ftpHost" class="Polaris-TextField__Input" aria-labelledby="TextField1Label" aria-invalid="false">*@
+                                                            <div class="Polaris-TextField__Backdrop"></div>
+                                                        </div>
+                                                        <div class="Polaris-Labelled__Error">
+                                                            <div id="ftpHostError" class="Polaris-InlineError" style="display:none">
+                                                                <div class="Polaris-InlineError__Icon">
+                                                                    <span class="Polaris-Icon"><svg viewBox="0 0 20 20" class="Polaris-Icon__Svg" focusable="false" aria-hidden="true"><path d="M10 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16zm-1-8h2V6H9v4zm0 4h2v-2H9v2z" fill-rule="evenodd"></path></svg></span>
+                                                                </div>FTP host is required.
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="Polaris-FormLayout__Item">
+                                                    <div class="">
+                                                        <div class="Polaris-Labelled__LabelWrapper">
+                                                            <div class="Polaris-Label"><label for="ftpUserName" class="Polaris-Label__Text">FTP User Name</label></div>
+                                                        </div>
+                                                        <div class="Polaris-TextField">
+                                                            @Html.TextBoxFor(x => x.ftpUserName, new { autocomplete = "off", placeholder = "Enter FTP user name", @class = "Polaris-TextField__Input" })
+                                                            @*<input id="ftpUserName" type="text" value="" autocomplete="off" placeholder="Enter FTP Username" name="ftpUserName" class="Polaris-TextField__Input" aria-labelledby="TextField1Label" aria-invalid="false">*@
+                                                            <div class="Polaris-TextField__Backdrop"></div>
+                                                        </div>
+                                                        <div class="Polaris-Labelled__Error">
+                                                            <div id="ftpUserNameError" class="Polaris-InlineError" style="display:none">
+                                                                <div class="Polaris-InlineError__Icon">
+                                                                    <span class="Polaris-Icon"><svg viewBox="0 0 20 20" class="Polaris-Icon__Svg" focusable="false" aria-hidden="true"><path d="M10 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16zm-1-8h2V6H9v4zm0 4h2v-2H9v2z" fill-rule="evenodd"></path></svg></span>
+                                                                </div>User Name is required.
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="Polaris-FormLayout__Item">
+                                                    <div class="">
+                                                        <div class="Polaris-Labelled__LabelWrapper">
+                                                            <div class="Polaris-Label"><label for="ftpPassword" class="Polaris-Label__Text">FTP Password</label></div>
+                                                        </div>
+                                                        <div class="Polaris-TextField">
+                                                            @*<input id="ftpPassword" type="text" value="" autocomplete="off" placeholder="Enter FTP Password" name="ftpPassword" class="Polaris-TextField__Input" aria-labelledby="TextField1Label" aria-invalid="false">*@
+                                                          
+                                                            @Html.TextBoxFor(x => x.ftpPassword, new { autocomplete = "off", placeholder = "Enter FTP Password", @class = "Polaris-TextField__Input" })
+
+                                                            <div class="Polaris-TextField__Backdrop"></div>
+                                                        </div>
+                                                        <div class="Polaris-Labelled__Error">
+                                                            <div id="ftpPasswordError" class="Polaris-InlineError" style="display:none">
+                                                                <div class="Polaris-InlineError__Icon">
+                                                                    <span class="Polaris-Icon"><svg viewBox="0 0 20 20" class="Polaris-Icon__Svg" focusable="false" aria-hidden="true"><path d="M10 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16zm-1-8h2V6H9v4zm0 4h2v-2H9v2z" fill-rule="evenodd"></path></svg></span>
+                                                                </div>Password is required.
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="Polaris-FormLayout__Item">
+                                                    <div class="">
+                                                        <div class="Polaris-Labelled__LabelWrapper">
+                                                            <div class="Polaris-Label"><label for="ftpPort" class="Polaris-Label__Text">Port</label></div>
+                                                        </div>
+                                                        <div class="Polaris-TextField">
+                                                            @*<input id="ftpPort" type="text" value="" autocomplete="off" placeholder="Enter FTP Port" name="ftpPort" class="Polaris-TextField__Input" aria-labelledby="TextField1Label" aria-invalid="false">*@
+                                                            @Html.TextBoxFor(x => x.ftpPort, new { autocomplete = "off", placeholder = "Enter FTP Port", @class = "Polaris-TextField__Input" })
+
+                                                            <div class="Polaris-TextField__Backdrop"></div>
+                                                        </div>
+                                                        <div class="Polaris-Labelled__Error">
+                                                            <div id="ftpPortError" class="Polaris-InlineError" style="display:none">
+                                                                <div class="Polaris-InlineError__Icon">
+                                                                    <span class="Polaris-Icon"><svg viewBox="0 0 20 20" class="Polaris-Icon__Svg" focusable="false" aria-hidden="true"><path d="M10 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16zm-1-8h2V6H9v4zm0 4h2v-2H9v2z" fill-rule="evenodd"></path></svg></span>
+                                                                </div>Port is required.
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="Polaris-Layout__AnnotatedSection">
+                    <div class="Polaris-Layout__AnnotationWrapper">
+                        <div class="Polaris-Layout__Annotation">
+                            <div class="Polaris-TextContainer">
+                                <h2 class="Polaris-Heading">Time to Sync Products</h2>
+                                <p>Enter File path of folder on ftp , sync time at which scheduler job run and Select brand.</p>
+                            </div>
+                        </div>
+                        <div class="Polaris-Layout__AnnotationContent">
+                            <!--Show Error-->
+                            <!--Show Error End-->
+                            <div class="Polaris-Card">
+
+                                <div class="Polaris-Card__Section">
+                                    <div class="Polaris-FormLayout">
+                                        <div role="group" class="Polaris-FormLayout--condensed">
+                                            <div class="Polaris-FormLayout__Items">
+
+                                                <div class="Polaris-FormLayout__Item">
+                                                    <div class="">
+                                                        <div class="Polaris-Labelled__LabelWrapper">
+                                                            <div class="Polaris-Label"><label for="ftpFilePath" class="Polaris-Label__Text">File Path</label></div>
+                                                        </div>
+                                                        <div class="Polaris-TextField">
+                                                            @*<input id="ftpFilePath" type="text" value="" autocomplete="off" placeholder="Enter FTP Folder Path" name="ftpFilePath" class="Polaris-TextField__Input" aria-labelledby="TextField1Label" aria-invalid="false">*@
+                                                            @Html.TextBoxFor(x => x.ftpFilePath, new { autocomplete = "off", placeholder = "Enter FTP Port", @class = "Polaris-TextField__Input" })
+
+                                                            <div class="Polaris-TextField__Backdrop"></div>
+                                                        </div>
+                                                        <div class="Polaris-Labelled__Error">
+                                                            <div id="ftpFilePathError" class="Polaris-InlineError" style="display:none">
+                                                                <div class="Polaris-InlineError__Icon">
+                                                                    <span class="Polaris-Icon"><svg viewBox="0 0 20 20" class="Polaris-Icon__Svg" focusable="false" aria-hidden="true"><path d="M10 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16zm-1-8h2V6H9v4zm0 4h2v-2H9v2z" fill-rule="evenodd"></path></svg></span>
+                                                                </div>FTP folder path is required.
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="Polaris-FormLayout__Item">
+                                                    <div class="">
+                                                        <div class="Polaris-Labelled__LabelWrapper">
+                                                            <div class="Polaris-Label"><label for="ftpUserName" class="Polaris-Label__Text">Sync Time</label></div>
+                                                        </div>
+                                                        <div class="Polaris-TextField">
+                                                            @*<input id="syncTime" type="time" value="" autocomplete="off" placeholder="Enter Sync Time" name="syncTime" class="Polaris-TextField__Input" aria-labelledby="TextField1Label" aria-invalid="false">*@
+                                                            @Html.TextBoxFor(x => x.syncTime, new { autocomplete = "off",type="time", placeholder = "Enter FTP Port", @class = "Polaris-TextField__Input" })
+
+                                                            <div class="Polaris-TextField__Backdrop"></div>
+                                                        </div>
+                                                        <div class="Polaris-Labelled__Error">
+                                                            <div id="syncTimeError" class="Polaris-InlineError" style="display:none">
+                                                                <div class="Polaris-InlineError__Icon">
+                                                                    <span class="Polaris-Icon"><svg viewBox="0 0 20 20" class="Polaris-Icon__Svg" focusable="false" aria-hidden="true"><path d="M10 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16zm-1-8h2V6H9v4zm0 4h2v-2H9v2z" fill-rule="evenodd"></path></svg></span>
+                                                                </div>Select Sync time.
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="Polaris-FormLayout__Item">
+                                                    <div class="">
+                                                        <div class="Polaris-Labelled__LabelWrapper">
+                                                            <div class="Polaris-Label"><label id="Select2Label" for="brand" class="Polaris-Label__Text">Brand</label></div>
+                                                        </div>
+                                                        <div class="Polaris-Select">
+                                                            @Html.DropDownListFor(x=>x.brand,new List<SelectListItem> {
+                                                       new SelectListItem{ Text="",Value=""},
+                                                       new SelectListItem{ Text="SMUS",Value="SMUS"},
+                                                       new SelectListItem{ Text="SMCA",Value="SMCA"},
+                                                       new SelectListItem{ Text="DV",Value="DV"},
+                                                       new SelectListItem{ Text="BJ",Value="BJ"},
+                                                       new SelectListItem{ Text="Superga",Value="Superga"},
+                                                       },new { @class = "Polaris-Select__Input",onchange= "ocpHome.ChangeBrand()" })
+                                                            @*<select class="Polaris-Select__Input" id="brand" name="brand" onchange="ocpHome.ChangeBrand()">
+                                                                <option value=""></option>
+                                                                <option value="SMUS">SMUS</option>
+                                                                <option value="SMUS">SMCA</option>
+                                                                <option value="SMUS">DV</option>
+                                                                <option value="SMUS">BJ</option>
+                                                                <option value="SMUS">Superga</option>
+
+                                                            </select>*@
+                                                            <div class="Polaris-Select__Content" aria-hidden="true">
+                                                                <span class="Polaris-Select__SelectedOption" id="brandText">--select Brand--</span><span class="Polaris-Select__Icon"><span class="Polaris-Icon"><svg class="Polaris-Icon__Svg" viewBox="0 0 20 20" focusable="false" aria-hidden="true"><path d="M13 8l-3-3-3 3h6zm-.1 4L10 14.9 7.1 12h5.8z" fill-rule="evenodd"></path></svg></span></span>
+                                                            </div>
+                                                            <div class="Polaris-Select__Backdrop"></div>
+                                                        </div>
+                                                        <div class="Polaris-Labelled__Error">
+                                                            <div id="brandError" class="Polaris-InlineError" style="display:none">
+                                                                <div class="Polaris-InlineError__Icon">
+                                                                    <span class="Polaris-Icon"><svg viewBox="0 0 20 20" class="Polaris-Icon__Svg" focusable="false" aria-hidden="true"><path d="M10 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16zm-1-8h2V6H9v4zm0 4h2v-2H9v2z" fill-rule="evenodd"></path></svg></span>
+                                                                </div>Select Brand.
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="Polaris-Card__Section">
+                                    <div class="Polaris-FormLayout">
+                                        <div role="group" class="Polaris-FormLayout--condensed">
+                                            <div class="Polaris-FormLayout__Items">
+
+                                                <button onclick="ocpHome.ResetForm();" style="height: 10px;margin-top: 39px;margin-left: 13px;" type="reset"  class="Polaris-Button">
+                                                    <span class="Polaris-Button__Content">
+                                                        <span id="btnName">Reset</span>
+                                                    </span>
+                                                </button>
+
+                                                <button style="height: 10px;margin-top: 39px;margin-left: 13px;" type="button" onclick="ocpHome.SubmitSettings();"  class="Polaris-Button Polaris-Button--primary">
+                                                    <span class="Polaris-Button__Content">
+                                                        <span id="btnName">Save</span>
+                                                    </span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+             </form>
+        </div>
+    </div>
+</div>
+<div class="Polaris-Frame-ToastManager" aria-live="polite" id="toastMsg" style="display:none">
+    <div class="Polaris-Frame-ToastManager__ToastWrapper Polaris-Frame-ToastManager--toastWrapperEnterDone" style="--toast-translate-y-in:-80px; --toast-translate-y-out:70px;">
+        <div style="--top-bar-background:#00848e; --top-bar-background-lighter:#1d9ba4; --top-bar-color:#f9fafb; --p-frame-offset:0px;">
+            <div class="Polaris-Frame-Toast">
+                <span id="txtToastMsg">Message sent</span> <button type="button" class="Polaris-Frame-Toast__CloseButton" onclick="ocpHome.hideToast()">
+                    <span class="Polaris-Icon">
+                        <svg viewBox="0 0 20 20" class="Polaris-Icon__Svg" focusable="false" aria-hidden="true">
+                            <path d="M11.414 10l6.293-6.293a.999.999 0 1 0-1.414-1.414L10 8.586 3.707 2.293a.999.999 0 1 0-1.414 1.414L8.586 10l-6.293 6.293a.999.999 0 1 0 1.414 1.414L10 11.414l6.293 6.293a.997.997 0 0 0 1.414 0 .999.999 0 0 0 0-1.414L11.414 10z" fill-rule="evenodd"></path>
+                        </svg>
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="Polaris-Frame-ToastManager" aria-live="polite" id="errorToastMsg" style="display:none">
+    <div class="Polaris-Frame-ToastManager__ToastWrapper Polaris-Frame-ToastManager--toastWrapperEnterDone" style="--toast-translate-y-in:-80px; --toast-translate-y-out:70px;">
+        <div style="--top-bar-background:#00848e; --top-bar-background-lighter:#1d9ba4; --top-bar-color:#f9fafb; --p-frame-offset:0px;">
+            <div class="Polaris-Frame-Toast Polaris-Frame-Toast--error">
+                <span id="txtErrorToastMsg"></span><button type="button" onclick="ocpHome.hideErrorToast();" class="Polaris-Frame-Toast__CloseButton">
+                    <span class="Polaris-Icon">
+                        <svg viewBox="0 0 20 20" class="Polaris-Icon__Svg" focusable="false" aria-hidden="true">
+                            <path d="M11.414 10l6.293-6.293a.999.999 0 1 0-1.414-1.414L10 8.586 3.707 2.293a.999.999 0 1 0-1.414 1.414L8.586 10l-6.293 6.293a.999.999 0 1 0 1.414 1.414L10 11.414l6.293 6.293a.997.997 0 0 0 1.414 0 .999.999 0 0 0 0-1.414L11.414 10z" fill-rule="evenodd"></path>
+                        </svg>
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+    <script type="text/javascript">
+
+        var ocpHome = {
+            ChangeBrand: function () {
+                var selectedTxt = $('#brand option:selected').text();
+                $('#brandText').html(selectedTxt);
+                if (selectedTxt == "") {
+                    document.getElementById('brandError').style.display = "flex";
+                } else {
+                    document.getElementById('brandError').style.display = "none";
+                }
+            },
+            SubmitSettings: function () {
+                if (this.ValidateForm() === true) {
+                    var ftpHost = document.getElementById('ftpHost').value;
+                    var ftpUserName = document.getElementById('ftpUserName').value;
+                    var ftpPassword = document.getElementById('ftpPassword').value;
+                    var ftpPort = document.getElementById('ftpPort').value;
+                    var ftpFilePath = document.getElementById('ftpFilePath').value;
+                    var syncTime = document.getElementById('syncTime').value;
+                    var brand = document.getElementById('brand').value;
+                   
+                    var settingsObj = {};
+                    settingsObj.ftpHost = ftpHost;
+                    settingsObj.ftpUserName = ftpUserName;
+                    settingsObj.ftpPassword = ftpPassword;
+                    settingsObj.ftpPort = ftpPort;
+                    settingsObj.ftpFilePath = ftpFilePath;
+                    settingsObj.syncTime = syncTime;
+                    settingsObj.brand = brand;
+
+
+                    $.ajax({
+                        url: '/Home/SaveSettings',
+                        type: 'POST',
+                        contentType: 'application/json',
+                        dataType: "json",
+                        data:JSON.stringify(settingsObj),
+                        success: function (data) {
+                            if (data.res == "success") {
+                              ocpHome.showToast('Settings saved sucessfully')
+                            } else {
+                                ocpHome.showErrorToast(data.message);
+                            }
+                        }
+                        , error: function (xhr, status, error) {
+                        
+                            ocpHome.showErrorToast(error);
+                        }
+                    });
+
+
+
+                }
+            },
+            ValidateOnlyText: function (text) {
+                var onlyLetters = /^[A-Za-z '-]+$/;
+                if (text.match(onlyLetters)) {
+                    return true;
+                } else {
+                    return false;
+                }
+            },
+            ValidateTextSpecialCharacter: function (text) {
+                var onlyLetters = /^[ A-Za-z0-9_@@./#&+-]+$/;
+                if (text.match(onlyLetters)) {
+                    return true;
+                } else {
+                    return false;
+                }
+            },
+            validateSpecialCharacter: function (str) {
+                var iChars = "!`@@$%^&*()+=-[]\\\/{}|\:<>~_";
+                for (var i = 0; i < str.length; i++) {
+                    if (iChars.indexOf(str.charAt(i)) != -1) {
+                        return false;
+                    }
+                }
+                return true;
+            },
+            ValidateForm: function () {
+                var ftpHost = document.getElementById('ftpHost').value;
+                var ftpUserName = document.getElementById('ftpUserName').value;
+                var ftpPassword = document.getElementById('ftpPassword').value;
+                var ftpPort = document.getElementById('ftpPort').value;
+                var ftpFilePath = document.getElementById('ftpFilePath').value;
+                var syncTime = document.getElementById('syncTime').value;
+                var brand = document.getElementById('brand').value;
+
+                var result = true;
+                if (ftpHost.trim() == '') {
+                    document.getElementById('ftpHostError').style.display = "flex";
+                    result = false;
+                }
+                else {
+                    document.getElementById('ftpHostError').style.display = "none";
+                }
+                if (ftpUserName.trim() == '') {
+                    document.getElementById('ftpUserNameError').style.display = "flex";
+                    result = false;
+                }
+                else {
+                    document.getElementById('ftpUserNameError').style.display = "none";
+                }
+
+                if (ftpPassword.trim() == '') {
+                    document.getElementById('ftpPasswordError').style.display = "flex";
+                    result = false;
+                }
+                else {
+                    document.getElementById('ftpPasswordError').style.display = "none";
+                }
+
+                if (ftpPort.trim() == '') {
+                    document.getElementById('ftpPortError').style.display = "flex";
+                    result = false;
+                }
+                else {
+                    document.getElementById('ftpPortError').style.display = "none";
+                }
+
+                if (ftpFilePath.trim() == '') {
+                    document.getElementById('ftpFilePathError').style.display = "flex";
+                    result = false;
+                }
+                else {
+                    document.getElementById('ftpFilePathError').style.display = "none";
+                }
+
+                if (syncTime.trim() == '') {
+                    document.getElementById('syncTimeError').style.display = "flex";
+                    result = false;
+                }
+                else {
+                    document.getElementById('syncTimeError').style.display = "none";
+                }
+
+
+                if (brand.trim() == '') {
+                    document.getElementById('brandError').style.display = "flex";
+                    result = false;
+                }
+                else {
+                    document.getElementById('brandError').style.display = "none";
+                }
+
+
+
+
+                return result;
+            },
+            ResetForm: function () {
+                document.getElementById('ftpHostError').style.display = "none";
+                document.getElementById('ftpUserNameError').style.display = "none";
+                document.getElementById('ftpPasswordError').style.display = "none";
+                document.getElementById('ftpPortError').style.display = "none";
+                document.getElementById('ftpFilePathError').style.display = "none";
+                document.getElementById('syncTimeError').style.display = "none";
+                document.getElementById('brandError').style.display = "none";
+                ocpHome.showToast('Setting saved successfully');
+                ocpHome.showErrorToast('Setting saved successfully');
+            },
+            showToast: function (msg) {
+                $('#toastMsg').css('bottom','0px');
+                $('#txtToastMsg').text(msg);
+                $('#toastMsg').show();
+                $('#toastMsg').animate({ top: '300px' });
+            },
+            hideToast: function () {
+                $('#toastMsg').removeAttr('style');
+                $('#toastMsg').hide();
+               
+            },
+            showErrorToast: function (msg) {
+                $('#errorToastMsg').css('bottom', '0px');
+                $('#txtErrorToastMsg').text(msg);
+                $('#errorToastMsg').show();
+                $('#errorToastMsg').animate({ top: '300px' });
+            },
+            hideErrorToast: function () {
+                $('#errorToastMsg').removeAttr('style');
+                $('#errorToastMsg').hide();
+
+            }
+        }
+    </script>

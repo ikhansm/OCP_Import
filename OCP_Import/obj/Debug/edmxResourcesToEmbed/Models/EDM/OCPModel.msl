@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="db_OCP_ImportEntitieStoreContainer" CdmEntityContainer="db_OCP_ImportEntities">
+    <EntitySetMapping Name="tblSchedulerHistories">
+      <EntityTypeMapping TypeName="db_OCP_ImportEntitie.tblSchedulerHistory">
+        <MappingFragment StoreEntitySet="tblSchedulerHistory">
+          <ScalarProperty Name="Run_at" ColumnName="Run_at" />
+          <ScalarProperty Name="SellerId" ColumnName="SellerId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblSellers">
+      <EntityTypeMapping TypeName="db_OCP_ImportEntitie.tblSeller">
+        <MappingFragment StoreEntitySet="tblSeller">
+          <ScalarProperty Name="Host" ColumnName="Host" />
+          <ScalarProperty Name="ShopDomain" ColumnName="ShopDomain" />
+          <ScalarProperty Name="UnInstallDateTime" ColumnName="UnInstallDateTime" />
+          <ScalarProperty Name="InstallStatus" ColumnName="InstallStatus" />
+          <ScalarProperty Name="CreatedDateTime" ColumnName="CreatedDateTime" />
+          <ScalarProperty Name="TimezoneOffset" ColumnName="TimezoneOffset" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="ShopName" ColumnName="ShopName" />
+          <ScalarProperty Name="ShopifyChargeId" ColumnName="ShopifyChargeId" />
+          <ScalarProperty Name="MyShopifyDomain" ColumnName="MyShopifyDomain" />
+          <ScalarProperty Name="ShopifyAccessToken" ColumnName="ShopifyAccessToken" />
+          <ScalarProperty Name="SellerId" ColumnName="SellerId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblSchedulerSettings">
+      <EntityTypeMapping TypeName="db_OCP_ImportEntitie.tblSchedulerSetting">
+        <MappingFragment StoreEntitySet="tblSchedulerSettings">
+          <ScalarProperty Name="UpdateAt" ColumnName="UpdateAt" />
+          <ScalarProperty Name="SellerId" ColumnName="SellerId" />
+          <ScalarProperty Name="Brand" ColumnName="Brand" />
+          <ScalarProperty Name="SyncTime" ColumnName="SyncTime" />
+          <ScalarProperty Name="FtpFilePath" ColumnName="FtpFilePath" />
+          <ScalarProperty Name="FtpPort" ColumnName="FtpPort" />
+          <ScalarProperty Name="FtpPassword" ColumnName="FtpPassword" />
+          <ScalarProperty Name="FtpUserName" ColumnName="FtpUserName" />
+          <ScalarProperty Name="FtpHost" ColumnName="FtpHost" />
+          <ScalarProperty Name="SettingId" ColumnName="SettingId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
