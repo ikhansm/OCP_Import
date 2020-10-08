@@ -12,7 +12,7 @@ namespace OCP_Import.IService
         Task UpdateSellerDetails(Models.EDM.tblSeller seller);
 
         Task<bool> ValidateStoreInstalled(Models.EDM.tblSeller storeData);
-        Task SaveSellerDetails(string domain, string token, ShopifySharp.Shop shopDetails, long charge_id);
+        Task SaveSellerDetails(string domain, string token, ShopifySharp.Shop shopDetails);
         Task<bool> CreateWebhook(string domain, string token);
         Helper.ProductCatalogImport ReadCSV();
     }

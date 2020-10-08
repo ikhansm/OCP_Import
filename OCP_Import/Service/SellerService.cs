@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 
+
 namespace OCP_Import.Service
 {
     public class SellerService:IService.ISellerService, IDisposable
@@ -47,31 +48,42 @@ namespace OCP_Import.Service
 
 
         }
-        public async  Task SaveSellerDetails(string domain, string token, Shop shopDetails, long charge_id)
+        public async  Task SaveSellerDetails(string domain, string token, Shop shopDetails)
         {
             tblSeller seller =await db.tblSellers.Where(x => x.MyShopifyDomain == domain).FirstOrDefaultAsync();
             if (seller == null)
             {
                 seller = new tblSeller();
+               
+                seller.MyShopifyDomain = domain;
+                seller.ShopifyAccessToken = token;
+                seller.Email = shopDetails.Email;
+                seller.PhoneNumber = shopDetails.Phone;
+                seller.UserName = shopDetails.ShopOwner;
+                seller.InstallStatus = "Active";
+                seller.Host = domain.Replace(".myshopify", "");
+                seller.TimezoneOffset = GetTimezoneOffset(shopDetails.Timezone);
+                seller.ShopName = shopDetails.Name;
+                seller.ShopDomain = shopDetails.Domain;
+                seller.CreatedDateTime = DateTime.Now;
                 db.tblSellers.Add(seller);
-                seller.CreatedDateTime = DateTime.UtcNow;
             }
             else
             {
+                seller.MyShopifyDomain = domain;
+                seller.ShopifyAccessToken = token;
+                seller.Email = shopDetails.Email;
+                seller.PhoneNumber = shopDetails.Phone;
+                seller.UserName = shopDetails.ShopOwner;
+                seller.InstallStatus = "Active";
+                seller.Host = domain.Replace(".myshopify", "");
+                seller.TimezoneOffset = GetTimezoneOffset(shopDetails.Timezone);
+                seller.ShopName = shopDetails.Name;
+                seller.ShopDomain = shopDetails.Domain;
                 db.Entry(seller).State = EntityState.Modified;
             }
 
-            seller.MyShopifyDomain = domain;
-            seller.ShopifyAccessToken = token;
-            seller.ShopifyChargeId = charge_id;
-            seller.Email = shopDetails.Email;
-            seller.PhoneNumber = shopDetails.Phone;
-            seller.UserName = shopDetails.ShopOwner;
-            seller.InstallStatus = "Active";
-            seller.Host = domain.Replace(".myshopify", "");
-            seller.TimezoneOffset = GetTimezoneOffset(shopDetails.Timezone);
-            seller.ShopName = shopDetails.Name;
-            seller.ShopDomain = shopDetails.Domain;
+         
              await db.SaveChangesAsync();
            
         }

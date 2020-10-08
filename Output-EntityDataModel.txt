@@ -1,0 +1,11 @@
+﻿Generated model file: OCPModel.edmx.
+Loading metadata from the database took 00:00:01.0624900.
+Generating the model took 00:00:01.6840949.
+Generated model file: OCPModel.edmx.
+Loading metadata from the database took 00:00:00.6559625.
+Generating the model took 00:00:01.2388043.
+Added the connection string to the Web.Config file.
+Writing the .edmx file took 00:00:00.0004602.
+Generated model file: OCPModel.edmx.
+Loading metadata from the database took 00:00:00.6039993.
+Generating the model took 00:00:01.0329779.

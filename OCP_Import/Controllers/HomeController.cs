@@ -19,14 +19,34 @@ namespace OCP_Import.Controllers
 
 
 
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
+            if (Session["SellerInstall"] != null)
+            {
+                ViewBag.shopOrigin = Session["SellerInstall"].ToString();
+            }
+             if (Session["domain"] != null)
+            {
+                ViewBag.shopOrigin = Session["domain"].ToString();
+            }
+            if (HttpContext.Request.Cookies[".App.Handshake.ShopUrl"] != null)
+            {
+                HttpCookie cookie = HttpContext.Request.Cookies.Get(".App.Handshake.ShopUrl");
+                ViewBag.shopOrigin = cookie.Value;
+            }
 
-       //     var data = _iProductService.ProcessXmlProducts();
+            Models.Settings.SchedulerSettingModel data = await _iProductService.GetSettingsByShopUrl(ViewBag.shopOrigin);
+            if (data == null)
+            {
+                data = new Models.Settings.SchedulerSettingModel();
+                data.brand = "";
+            }
+            // var data =await _iProductService.ProcessXmlProducts();
+          //   Service.ProductService ps = new Service.ProductService();
+         //   ps.DownloadFileSFTP();
+            //  await Helper.ProcessPendingFilesSchedule.ProcessPendingFilesScheduleJobSync("1", 1);
 
-
-
-            return View();
+            return View(data);
         }
 
         [HttpPost]

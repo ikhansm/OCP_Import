@@ -18,7 +18,7 @@
             <PropertyRef Name="SettingId" />
           </Key>
           <Property Name="SettingId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="FtpHost" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="FtpHost" Type="nvarchar(max)" Nullable="false" />
           <Property Name="FtpUserName" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="FtpPassword" Type="nvarchar" MaxLength="1000" Nullable="false" />
           <Property Name="FtpPort" Type="nvarchar" MaxLength="10" Nullable="false" />
@@ -34,18 +34,18 @@
           </Key>
           <Property Name="SellerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ShopifyAccessToken" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="MyShopifyDomain" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="ShopifyChargeId" Type="bigint" Nullable="false" />
-          <Property Name="ShopName" Type="nvarchar" MaxLength="300" Nullable="false" />
-          <Property Name="Email" Type="nvarchar" MaxLength="256" Nullable="false" />
-          <Property Name="PhoneNumber" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
-          <Property Name="TimezoneOffset" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="CreatedDateTime" Type="datetime" Nullable="false" />
-          <Property Name="InstallStatus" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="UnInstallDateTime" Type="datetime" Nullable="false" />
-          <Property Name="ShopDomain" Type="nvarchar" MaxLength="200" Nullable="false" />
-          <Property Name="Host" Type="varchar(max)" Nullable="false" />
+          <Property Name="MyShopifyDomain" Type="nvarchar(max)" />
+          <Property Name="ShopifyChargeId" Type="bigint" />
+          <Property Name="ShopName" Type="nvarchar" MaxLength="300" />
+          <Property Name="Email" Type="nvarchar" MaxLength="256" />
+          <Property Name="PhoneNumber" Type="nvarchar(max)" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="256" />
+          <Property Name="TimezoneOffset" Type="nvarchar" MaxLength="50" />
+          <Property Name="CreatedDateTime" Type="datetime" />
+          <Property Name="InstallStatus" Type="nvarchar" MaxLength="50" />
+          <Property Name="UnInstallDateTime" Type="datetime" />
+          <Property Name="ShopDomain" Type="nvarchar" MaxLength="200" />
+          <Property Name="Host" Type="varchar(max)" />
         </EntityType>
         <Association Name="FK__tblSchedu__Selle__164452B1">
           <End Role="tblSeller" Type="Self.tblSeller" Multiplicity="1" />
@@ -59,7 +59,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__tblSchedu__Selle__173876EA">
+        <Association Name="FK__tblSchedu__Selle__286302EC">
           <End Role="tblSeller" Type="Self.tblSeller" Multiplicity="1" />
           <End Role="tblSchedulerHistory" Type="Self.tblSchedulerHistory" Multiplicity="*" />
           <ReferentialConstraint>
@@ -79,7 +79,7 @@
             <End Role="tblSeller" EntitySet="tblSeller" />
             <End Role="tblSchedulerSettings" EntitySet="tblSchedulerSettings" />
           </AssociationSet>
-          <AssociationSet Name="FK__tblSchedu__Selle__173876EA" Association="Self.FK__tblSchedu__Selle__173876EA">
+          <AssociationSet Name="FK__tblSchedu__Selle__286302EC" Association="Self.FK__tblSchedu__Selle__286302EC">
             <End Role="tblSeller" EntitySet="tblSeller" />
             <End Role="tblSchedulerHistory" EntitySet="tblSchedulerHistory" />
           </AssociationSet>
@@ -88,10 +88,19 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="db_OCP_ImportEntitie" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="tblSchedulerHistory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SellerId" Type="Int32" Nullable="false" />
+          <Property Name="Run_at" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="tblSeller" Relationship="db_OCP_ImportEntitie.FK__tblSchedu__Selle__286302EC" FromRole="tblSchedulerHistory" ToRole="tblSeller" />
+        </EntityType>
         <EntityContainer Name="db_OCP_ImportEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="tblSchedulerHistories" EntityType="db_OCP_ImportEntitie.tblSchedulerHistory" />
+          <EntitySet Name="tblSchedulerHistories" EntityType="Self.tblSchedulerHistory" />
           <EntitySet Name="tblSellers" EntityType="db_OCP_ImportEntitie.tblSeller" />
-          <AssociationSet Name="FK__tblSchedu__Selle__173876EA" Association="db_OCP_ImportEntitie.FK__tblSchedu__Selle__173876EA">
+          <AssociationSet Name="FK__tblSchedu__Selle__286302EC" Association="db_OCP_ImportEntitie.FK__tblSchedu__Selle__286302EC">
             <End Role="tblSeller" EntitySet="tblSellers" />
             <End Role="tblSchedulerHistory" EntitySet="tblSchedulerHistories" />
           </AssociationSet>
@@ -100,38 +109,29 @@
             <End Role="tblSeller" EntitySet="tblSellers" />
             <End Role="tblSchedulerSetting" EntitySet="tblSchedulerSettings" />
           </AssociationSet>
-        </EntityContainer>
-        <EntityType Name="tblSchedulerHistory">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="SellerId" Type="Int32" Nullable="false" />
-          <Property Name="Run_at" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="tblSeller" Relationship="db_OCP_ImportEntitie.FK__tblSchedu__Selle__173876EA" FromRole="tblSchedulerHistory" ToRole="tblSeller" />
-        </EntityType>
+          </EntityContainer>
         <EntityType Name="tblSeller">
           <Key>
             <PropertyRef Name="SellerId" />
           </Key>
           <Property Name="SellerId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ShopifyAccessToken" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="MyShopifyDomain" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ShopifyChargeId" Type="Int64" Nullable="false" />
-          <Property Name="ShopName" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" />
-          <Property Name="Email" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
-          <Property Name="PhoneNumber" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
-          <Property Name="TimezoneOffset" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedDateTime" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="InstallStatus" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="UnInstallDateTime" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="ShopDomain" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="Host" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="tblSchedulerHistories" Relationship="db_OCP_ImportEntitie.FK__tblSchedu__Selle__173876EA" FromRole="tblSeller" ToRole="tblSchedulerHistory" />
+          <Property Name="MyShopifyDomain" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ShopifyChargeId" Type="Int64" />
+          <Property Name="ShopName" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="TimezoneOffset" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDateTime" Type="DateTime" Precision="3" annotation:StoreGeneratedPattern="None" />
+          <Property Name="InstallStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UnInstallDateTime" Type="DateTime" Precision="3" />
+          <Property Name="ShopDomain" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Host" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tblSchedulerHistories" Relationship="db_OCP_ImportEntitie.FK__tblSchedu__Selle__286302EC" FromRole="tblSeller" ToRole="tblSchedulerHistory" />
           <NavigationProperty Name="tblSchedulerSettings" Relationship="db_OCP_ImportEntitie.FK__tblSchedu__Selle__164452B1" FromRole="tblSeller" ToRole="tblSchedulerSetting" />
         </EntityType>
-        <Association Name="FK__tblSchedu__Selle__173876EA">
+        <Association Name="FK__tblSchedu__Selle__286302EC">
           <End Type="db_OCP_ImportEntitie.tblSeller" Role="tblSeller" Multiplicity="1" />
           <End Type="db_OCP_ImportEntitie.tblSchedulerHistory" Role="tblSchedulerHistory" Multiplicity="*" />
           <ReferentialConstraint>
@@ -148,7 +148,7 @@
             <PropertyRef Name="SettingId" />
           </Key>
           <Property Name="SettingId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FtpHost" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="FtpHost" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="FtpUserName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="FtpPassword" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="FtpPort" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
@@ -180,9 +180,9 @@
           <EntitySetMapping Name="tblSchedulerHistories">
             <EntityTypeMapping TypeName="db_OCP_ImportEntitie.tblSchedulerHistory">
               <MappingFragment StoreEntitySet="tblSchedulerHistory">
-                <ScalarProperty Name="Run_at" ColumnName="Run_at" />
-                <ScalarProperty Name="SellerId" ColumnName="SellerId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="SellerId" ColumnName="SellerId" />
+                <ScalarProperty Name="Run_at" ColumnName="Run_at" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

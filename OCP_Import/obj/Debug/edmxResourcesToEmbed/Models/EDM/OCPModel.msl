@@ -4,9 +4,9 @@
     <EntitySetMapping Name="tblSchedulerHistories">
       <EntityTypeMapping TypeName="db_OCP_ImportEntitie.tblSchedulerHistory">
         <MappingFragment StoreEntitySet="tblSchedulerHistory">
-          <ScalarProperty Name="Run_at" ColumnName="Run_at" />
-          <ScalarProperty Name="SellerId" ColumnName="SellerId" />
           <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="SellerId" ColumnName="SellerId" />
+          <ScalarProperty Name="Run_at" ColumnName="Run_at" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

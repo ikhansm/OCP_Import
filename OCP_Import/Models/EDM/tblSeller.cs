@@ -24,15 +24,15 @@ namespace OCP_Import.Models.EDM
         public int SellerId { get; set; }
         public string ShopifyAccessToken { get; set; }
         public string MyShopifyDomain { get; set; }
-        public long ShopifyChargeId { get; set; }
+        public Nullable<long> ShopifyChargeId { get; set; }
         public string ShopName { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
         public string UserName { get; set; }
         public string TimezoneOffset { get; set; }
-        public System.DateTime CreatedDateTime { get; set; }
+        public Nullable<System.DateTime> CreatedDateTime { get; set; }
         public string InstallStatus { get; set; }
-        public System.DateTime UnInstallDateTime { get; set; }
+        public Nullable<System.DateTime> UnInstallDateTime { get; set; }
         public string ShopDomain { get; set; }
         public string Host { get; set; }
     

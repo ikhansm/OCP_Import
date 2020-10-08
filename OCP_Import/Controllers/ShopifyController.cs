@@ -22,13 +22,14 @@ namespace OCP_Import.Controllers
         // GET: Shopify
         public async Task<ActionResult> Handshake(string shop)
         {
+            
             if (!AuthorizationService.IsAuthenticRequest(Request.QueryString.ToKvps(), ApplicationEngine.ShopifySecretKeyPublicApp))
             {
                 throw new Exception("Request is not authentic.");
             }
             else
             {
-                Session["SellerInstall"] = shop;
+               Session["SellerInstall"] = shop;
                 var cookie = new System.Web.HttpCookie(".App.Handshake.ShopUrl", shop)
                 {
                     Expires = DateTime.Now.AddDays(2),
@@ -63,8 +64,7 @@ namespace OCP_Import.Controllers
                          {
                            ShopifySharp.Enums.AuthorizationScope.ReadOrders,
                           ShopifySharp.Enums.AuthorizationScope.WriteOrders,
-                          AuthorizationScope.ReadScriptTags,
-                           AuthorizationScope.ReadThemes,
+                        
                             AuthorizationScope.ReadProducts,
                              AuthorizationScope.WriteProducts
                            
@@ -130,15 +130,35 @@ namespace OCP_Import.Controllers
                 try
                 {
                     accessToken = await AuthorizationService.Authorize(code, shop, ApplicationEngine.ShopifyApiKeyPublicApp, ApplicationEngine.ShopifySecretKeyPublicApp);
+
+
+
+                    #region SaveDetailsToDBIfAccepted
+                   
+                        var shopService = new ShopService(shop, accessToken);
+                        var shopDetails = await shopService.GetAsync();
+
+                        //Save Seller Details to DB
+                        await _iSellerService.SaveSellerDetails(shop, accessToken, shopDetails);
+                        //Create the AppUninstalled webhook
+                        await _iSellerService.CreateWebhook(shop, accessToken);
+
+                 
+
+                    #endregion
+
+
+
+
+
+
                 }
-                catch (ShopifyException e)
+                catch (Exception ex)
                 {
-                    // Failed to authorize app installation.
-                    // TODO: Log or handle exception in whatever way you see fit.
-                    throw e;
+                
                 }
-                Session["domain"] = shop; Session["token"] = accessToken;
-                return RedirectToAction("Charge", "Shopify");
+                Session["domain"] = shop; 
+                return RedirectToAction("Index", "Home");
             }
         }
 
@@ -201,7 +221,7 @@ namespace OCP_Import.Controllers
                 var shopDetails = await shopService.GetAsync();
 
                 //Save Seller Details to DB
-                 await _iSellerService.SaveSellerDetails(domain, token, shopDetails,charge_id);
+                 await _iSellerService.SaveSellerDetails(domain, token, shopDetails);
 
                 //Activate the charge
                 await service.ActivateAsync(charge_id);
