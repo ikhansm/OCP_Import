@@ -52,7 +52,6 @@ namespace OCP_Import.Service
             }
             newProduct.Handle = productHandle.ToLower();
             newProduct.Title = productTitle.ToUpper();
-
             var productTags = new List<string>();
             foreach (var c in distColorList)
             {
@@ -67,7 +66,7 @@ namespace OCP_Import.Service
             foreach (var pv in product.ProductVariants.ProductVariant)
             {
                 var _pv = new ShopifySharp.ProductVariant();
-          
+
                 _pv.SKU = product.Name.Replace(" ", "-").ToUpper();
                 _pv.Option1 = pv.ColorName.ToUpper();
                 _pv.Option2 = pv.SizeName;
@@ -96,36 +95,87 @@ namespace OCP_Import.Service
                 }
 
             }
-            newProduct.Variants = _pvList.DistinctBy(x => x.Title).Select(x => x).ToList();
-            foreach (var p in priceTagList.Distinct().Select(x => x).ToList())
+            var productVariants=  _pvList.DistinctBy(x => x.Title).Select(x => x).ToList();
+
+
+            var exist =await GetProductByHandle(newProduct.Handle, service);
+
+            if (exist != null)
             {
-                productTags.Add(p.ToLower());
+              
+
+                foreach (var p in exist)
+                {
+
+                    var existingPV = p.Variants;
+                    //var commonVar = from newPro in productVariants join oldVar in existingPV
+                    //                on newPro.Option1 equals oldVar.Option1 
+
+                    var result = from x in productVariants
+                                 join y in existingPV
+                   on new { X1 = x.Option1, X2 = x.Option2 } equals new { X1 = y.Option1, X2 = y.Option2 }
+                                 select x;
+                    var newVariants = productVariants.Where(p1 => !result.Any(p2 => p2.Option1 == p1.Option1 && p2.Option2 == p1.Option2));
+                    if (newVariants != null)
+                    {
+                        ShopifySharp.ProductVariantService pvs = new ProductVariantService(myShopifyDomain, accessToken);
+
+                        foreach (var nvp in newVariants)
+                        {
+                            var variant = await pvs.CreateAsync(p.Id??0, nvp);
+                        }
+
+                    }
+
+                }
+
 
             }
-            newProduct.Tags = string.Join(",", productTags.ToArray());
-
-            var createdDate = product.Attributes.Attribute.Where(x => x.ProductAttributeCode == "createddate").Select(x => x.ProductAttributeValue).FirstOrDefault();
-            if (createdDate != null)
-            {
-                newProduct.CreatedAt = Convert.ToDateTime(createdDate);
-
-            }
-
-          
-          
-
-
-
-
-            try
-            {
-                newProduct = await service.CreateAsync(newProduct);
-            }
-            catch (Exception ex)
+            else
             {
 
+
+
+                newProduct.Variants = productVariants;
+                foreach (var p in priceTagList.Distinct().Select(x => x).ToList())
+                {
+                    productTags.Add(p.ToLower());
+
+                }
+                newProduct.Tags = string.Join(",", productTags.ToArray());
+
+                var createdDate = product.Attributes.Attribute.Where(x => x.ProductAttributeCode == "createddate").Select(x => x.ProductAttributeValue).FirstOrDefault();
+                if (createdDate != null)
+                {
+                    newProduct.CreatedAt = Convert.ToDateTime(createdDate);
+
+                }
+
+
+
+
+
+
+
+                try
+                {
+                    newProduct = await service.CreateAsync(newProduct);
+                }
+                catch (Exception ex)
+                {
+
+                }
             }
             return newProduct;
+        }
+
+
+        public async Task<IEnumerable<ShopifySharp.Product>> GetProductByHandle(string handle, ShopifySharp.ProductService service)
+        {
+            ShopifySharp.Filters.ProductListFilter filter = new ShopifySharp.Filters.ProductListFilter();
+            filter.Handle = handle;
+            var data =await service.ListAsync(filter);
+            return data.Items;
         }
 
 
@@ -134,7 +184,7 @@ namespace OCP_Import.Service
             var xmlData = ReadCSV(sellerId);
             var result = false;
             var vendor = xmlData.ProductAttributeGroups.ProductAttributeGroup.ProductAttributeGroupCode;
-            var plist = xmlData.Products.Product.Take(5);
+            var plist = xmlData.Products.Product;
             foreach (var p in plist)
             {
                 try
@@ -323,13 +373,33 @@ namespace OCP_Import.Service
                 {
                     sftp.Connect();
 
-                //    Console.WriteLine("Downloading {0}", pathRemoteFile);
+                    var files = sftp.ListDirectory(pathRemoteFile).Where(f => !f.IsDirectory);
 
-                    using (Stream fileStream = File.OpenWrite(pathLocalFile))
-                    {
-                        sftp.DownloadFile(pathRemoteFile, fileStream);
-                        downloadresult = true;
+                  //  foreach (var file in files)
+                   // {
+                   //     var filename = $"{pathRemoteFile}/{file.Name}";
+                  //      if (!File.Exists(filename))
+                  //      {
+                         //   Console.WriteLine("Downloading  " + file.FullName);
+                          //  var localFile = File.OpenWrite(filename);
+                          //  sftp.DownloadFile(file.FullName, localFile);
+                   //     }
+                  //  }
+                    var lastUpdatedFile = files.OrderByDescending(x => x.LastWriteTime).FirstOrDefault();
+                    if (lastUpdatedFile != null)
+                    { 
+                        
+                        using (Stream fileStream = File.OpenWrite(pathLocalFile))
+                        {
+
+                            sftp.DownloadFile(pathRemoteFile+"/"+ lastUpdatedFile.Name, fileStream);
+                            downloadresult = true;
+                        }
+
+
+
                     }
+                  
 
                     sftp.Disconnect();
                 }

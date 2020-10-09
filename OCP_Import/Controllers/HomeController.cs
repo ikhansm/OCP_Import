@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -35,16 +36,24 @@ namespace OCP_Import.Controllers
                 ViewBag.shopOrigin = cookie.Value;
             }
 
-            Models.Settings.SchedulerSettingModel data = await _iProductService.GetSettingsByShopUrl(ViewBag.shopOrigin);
+            //   Models.Settings.SchedulerSettingModel data = await _iProductService.GetSettingsByShopUrl(ViewBag.shopOrigin);
+            Models.Settings.SchedulerSettingModel data = await _iProductService.GetSettingsByShopUrl("ocp-import.myshopify.com");
+
             if (data == null)
             {
                 data = new Models.Settings.SchedulerSettingModel();
                 data.brand = "";
             }
             // var data =await _iProductService.ProcessXmlProducts();
-          //   Service.ProductService ps = new Service.ProductService();
-         //   ps.DownloadFileSFTP();
+               Service.ProductService ps = new Service.ProductService();
+            //   ps.DownloadFileSFTP();
             //  await Helper.ProcessPendingFilesSchedule.ProcessPendingFilesScheduleJobSync("1", 1);
+          //   Models.EDM.db_OCP_ImportEntities db = new Models.EDM.db_OCP_ImportEntities();
+          //   var seller = await db.tblSchedulerSettings.Where(x => x.SellerId == 5).FirstOrDefaultAsync();
+         //   var downloadResult = ps.DownloadFileSFTP(seller.FtpHost, seller.FtpUserName, seller.FtpPassword, seller.FtpFilePath, 5);
+            await ps.ProcessXmlProducts(5);
+
+
 
             return View(data);
         }
