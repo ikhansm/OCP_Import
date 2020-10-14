@@ -130,7 +130,9 @@ namespace OCP_Import.Helper
                 string exception = ex.Message;
                 if (ex.InnerException != null)
                     exception = ex.InnerException.Message;
-             }
+                    LoggerFunctions.FileHelper.WriteExceptionMessage("Global", "UpdateSellerDetails", "SellerService.cs", "", exception);
+
+            }
             finally
             {
             }

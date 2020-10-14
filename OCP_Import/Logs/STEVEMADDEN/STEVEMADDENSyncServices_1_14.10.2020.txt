@@ -1,0 +1,35 @@
+DateTime:Status:Controller:Action:Method
+Message
+Inner Exception Message
+-----------------------------------------------------
+
+10:14:2020 07:16:41 PM,571 :ERROR:::
+Message =>  GetProductListByHandle System.UriFormatException: Invalid URI: The format of the URI could not be determined.
+   at System.Uri.CreateThis(String uri, Boolean dontEscape, UriKind uriKind)
+   at System.Uri..ctor(String uriString)
+   at RestSharp.RestClient..ctor(String baseUrl)
+   at Shopify.shopifyClass.Execute[T](RestRequest request) in D:\Projects\Ocp_Import\Shopify\shopifyClass.cs:line 84
+   at Shopify.shopifyClass.GetProductListByHandle(String Handle, String brandName) in D:\Projects\Ocp_Import\Shopify\shopifyClass.cs:line 1758
+10:14:2020 07:18:37 PM,292 :ERROR:::
+Message =>  GetProductListByHandle System.UriFormatException: Invalid URI: The format of the URI could not be determined.
+   at System.Uri.CreateThis(String uri, Boolean dontEscape, UriKind uriKind)
+   at System.Uri..ctor(String uriString)
+   at RestSharp.RestClient..ctor(String baseUrl)
+   at Shopify.shopifyClass.Execute[T](RestRequest request) in D:\Projects\Ocp_Import\Shopify\shopifyClass.cs:line 84
+   at Shopify.shopifyClass.GetProductListByHandle(String Handle, String brandName) in D:\Projects\Ocp_Import\Shopify\shopifyClass.cs:line 1758
+10:14:2020 07:22:11 PM,082 :ERROR:::
+Message =>  GetProductListByHandle System.UriFormatException: Invalid URI: The format of the URI could not be determined.
+   at System.Uri.CreateThis(String uri, Boolean dontEscape, UriKind uriKind)
+   at System.Uri..ctor(String uriString)
+   at RestSharp.RestClient..ctor(String baseUrl)
+   at Shopify.shopifyClass.Execute[T](RestRequest request) in D:\Projects\Ocp_Import\Shopify\shopifyClass.cs:line 84
+   at Shopify.shopifyClass.GetProductListByHandle(String Handle, String brandName) in D:\Projects\Ocp_Import\Shopify\shopifyClass.cs:line 1758
+10:14:2020 07:22:11 PM,670 :ERROR:::
+Message =>  GetProductListByHandle System.UriFormatException: Invalid URI: The format of the URI could not be determined.
+   at System.Uri.CreateThis(String uri, Boolean dontEscape, UriKind uriKind)
+   at System.Uri..ctor(String uriString)
+   at RestSharp.RestClient..ctor(String baseUrl)
+   at Shopify.shopifyClass.Execute[T](RestRequest request) in D:\Projects\Ocp_Import\Shopify\shopifyClass.cs:line 84
+   at Shopify.shopifyClass.GetProductListByHandle(String Handle, String brandName) in D:\Projects\Ocp_Import\Shopify\shopifyClass.cs:line 1758
+10:14:2020 07:25:14 PM,764 :ERROR:::
+Message =>  GetProductListByHandle Status OK OK

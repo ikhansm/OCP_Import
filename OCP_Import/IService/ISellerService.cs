@@ -14,6 +14,6 @@ namespace OCP_Import.IService
         Task<bool> ValidateStoreInstalled(Models.EDM.tblSeller storeData);
         Task SaveSellerDetails(string domain, string token, ShopifySharp.Shop shopDetails);
         Task<bool> CreateWebhook(string domain, string token);
-        Helper.ProductCatalogImport ReadCSV();
+   
     }
 }

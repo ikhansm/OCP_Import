@@ -1,6 +1,8 @@
+using OCP_Import.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
@@ -20,6 +22,10 @@ namespace OCP_Import
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            ProductService ps = new ProductService();
+            Task<bool> task = ps.ReScheduleAllJobs();
+            var result= task.Result;
+         
         }
 
         void Session_Start(Object sender, EventArgs e)
@@ -33,8 +39,6 @@ namespace OCP_Import
             Response.Cookies["ASP.NET_SessionId"].Path += ";SameSite=None";
 
         }
-
-
 
     }
 }

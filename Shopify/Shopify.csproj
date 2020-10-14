@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{811D5DB1-C9CC-4E20-A082-AE6E2D3756CC}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Shopify</RootNamespace>
+    <AssemblyName>Shopify</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="RestSharp, Version=106.4.2.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.106.4.2\lib\net452\RestSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ShopifyAPIAdapterLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ShopifyAPI.1.0.0\lib\net40\ShopifyAPIAdapterLibrary.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="GraphQlResponse\CollectionByQtyResponse.cs" />
+    <Compile Include="GraphQlResponse\GraphQlBulkUpdateInventoryResponse.cs" />
+    <Compile Include="GraphQlResponse\GraphQlInventoryItemIdByUPC.cs" />
+    <Compile Include="GraphQlResponse\GraphQlOrderFulfillmentStateResponse.cs" />
+    <Compile Include="GraphQlResponse\GraphQlOrderResponse.cs" />
+    <Compile Include="GraphQlResponse\GraphQlOrderResponseLinkShare.cs" />
+    <Compile Include="GraphQlResponse\GraphQlPreOrderProductVariantsResponse.cs" />
+    <Compile Include="GraphQlResponse\GraphQlProductIdResponse.cs" />
+    <Compile Include="GraphQlResponse\GraphQLProductPublish.cs" />
+    <Compile Include="GraphQlResponse\GraphQlProductResponse.cs" />
+    <Compile Include="GraphQlResponse\GraphQlProductResponseByTags.cs" />
+    <Compile Include="GraphQlResponse\GraphQLProductUnpublish.cs" />
+    <Compile Include="GraphQlResponse\GraphQLVariantResponse.cs" />
+    <Compile Include="Products\MetaField.cs" />
+    <Compile Include="Products\Product.cs" />
+    <Compile Include="Products\ProductImage.cs" />
+    <Compile Include="Products\ProductOption.cs" />
+    <Compile Include="Products\ProductVariant.cs" />
+    <Compile Include="Request\FulfillmentRequest.cs" />
+    <Compile Include="Request\FulfillmentRequestWithTrackingNumber.cs" />
+    <Compile Include="Request\InventoryItem.cs" />
+    <Compile Include="Request\InventoryLevel.cs" />
+    <Compile Include="Request\Metafield.cs" />
+    <Compile Include="Request\ProductVariantMetafieldRequest.cs" />
+    <Compile Include="Request\RootPriceRule.cs" />
+    <Compile Include="Request\VariantsRequest.cs" />
+    <Compile Include="Response\CustomerResponse.cs" />
+    <Compile Include="Response\DiscountCodeListViewModel.cs" />
+    <Compile Include="Response\InventoryItemResponse.cs" />
+    <Compile Include="Response\InventoryLevelResponse.cs" />
+    <Compile Include="Response\Location.cs" />
+    <Compile Include="Response\OrderResponse.cs" />
+    <Compile Include="Response\PriceRuleList.cs" />
+    <Compile Include="Response\Product.cs" />
+    <Compile Include="Response\ProductCount.cs" />
+    <Compile Include="Response\ProductVariantMetafieldResponse.cs" />
+    <Compile Include="Response\RootDiscount.cs" />
+    <Compile Include="Response\RootPriceRule.cs" />
+    <Compile Include="Response\Transaction.cs" />
+    <Compile Include="shopifyClass.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LoggerFunction\LoggerFunctions.csproj">
+      <Project>{72d6d67f-57ff-40f3-8db1-3711aadc56b4}</Project>
+      <Name>LoggerFunctions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ShopifyServices\ShopifyServices.csproj">
+      <Project>{2901055C-D6C7-4CFE-91CF-1A4E972DABC2}</Project>
+      <Name>ShopifyServices</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

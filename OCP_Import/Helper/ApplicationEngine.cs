@@ -28,6 +28,16 @@ namespace OCP_Import.Helper
         public static string FTP_Password { get; } = ConfigurationManager.AppSettings.Get("FTP_Password");
         public static string FTP_Host { get; } = ConfigurationManager.AppSettings.Get("FTP_Host");
 
+        public static string RemoveFilesIntervalDay { get; } = ConfigurationManager.AppSettings.Get("RemoveFilesIntervalDay");
+        public static string RemoveJsonFileDays { get; } = ConfigurationManager.AppSettings.Get("RemoveJsonFileDays");
+        public static string ApplicationUserFileMaxSizeLimitMB { get; } = ConfigurationManager.AppSettings.Get("ApplicationUserFileMaxSizeLimitMB");
+        public static string LogFilePath { get; } = ConfigurationManager.AppSettings.Get("LogFilePath");
+        public static string RemoveFileDays { get; } = ConfigurationManager.AppSettings.Get("RemoveFileDays");
+        public static string JsonFilePath { get; } = ConfigurationManager.AppSettings.Get("JsonFilePath");
+        
+
+
+
         public static List<KeyValuePair<string, StringValues>> ToKvps(this System.Collections.Specialized.NameValueCollection qs)
         {
             Dictionary<string, string> parameters = qs.Keys.Cast<string>().ToDictionary(key => key, value => qs[value]);

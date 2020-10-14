@@ -22,6 +22,7 @@ namespace OCP_Import.Controllers
 
         public async Task<ActionResult> Index()
         {
+            LoggerFunctions.FileHelper.WriteExceptionMessage("SM", LogStatus: "INFO", LogErrorMessage: "File Removed Successfully | file Name:Controller" );
             if (Session["SellerInstall"] != null)
             {
                 ViewBag.shopOrigin = Session["SellerInstall"].ToString();
@@ -48,11 +49,11 @@ namespace OCP_Import.Controllers
                Service.ProductService ps = new Service.ProductService();
             //   ps.DownloadFileSFTP();
             //  await Helper.ProcessPendingFilesSchedule.ProcessPendingFilesScheduleJobSync("1", 1);
-          //   Models.EDM.db_OCP_ImportEntities db = new Models.EDM.db_OCP_ImportEntities();
-          //   var seller = await db.tblSchedulerSettings.Where(x => x.SellerId == 5).FirstOrDefaultAsync();
-         //   var downloadResult = ps.DownloadFileSFTP(seller.FtpHost, seller.FtpUserName, seller.FtpPassword, seller.FtpFilePath, 5);
+            //   Models.EDM.db_OCP_ImportEntities db = new Models.EDM.db_OCP_ImportEntities();
+            //   var seller = await db.tblSchedulerSettings.Where(x => x.SellerId == 5).FirstOrDefaultAsync();
+            //   var downloadResult = ps.DownloadFileSFTP(seller.FtpHost, seller.FtpUserName, seller.FtpPassword, seller.FtpFilePath, 5);
+            //       await ps.ProcessXmlProducts(5);
             await ps.ProcessXmlProducts(5);
-
 
 
             return View(data);

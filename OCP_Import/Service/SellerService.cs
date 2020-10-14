@@ -13,8 +13,8 @@ namespace OCP_Import.Service
 {
     public class SellerService:IService.ISellerService, IDisposable
     {
-        private Models.EDM.db_OCP_ImportEntities db = new Models.EDM.db_OCP_ImportEntities();
 
+        private Models.EDM.db_OCP_ImportEntities db = new Models.EDM.db_OCP_ImportEntities();
 
         public async Task<Models.EDM.tblSeller> GetSellerDetails(string shopDomain,string installStatus)
         {
@@ -36,6 +36,10 @@ namespace OCP_Import.Service
                 if (ex.HttpStatusCode == System.Net.HttpStatusCode.Unauthorized && ex.Message == "Error: [API] Invalid API key or access token (unrecognized login or wrong password)")
                 {
                     isExist = false;
+                    string exception = ex.Message;
+                    if (ex.InnerException != null)
+                        exception = ex.InnerException.Message;
+                    LoggerFunctions.FileHelper.WriteExceptionMessage("Global", "ValidateStoreInstalled", "SellerService.cs", exception);
 
                 }
                 else
@@ -51,41 +55,51 @@ namespace OCP_Import.Service
         public async  Task SaveSellerDetails(string domain, string token, Shop shopDetails)
         {
             tblSeller seller =await db.tblSellers.Where(x => x.MyShopifyDomain == domain).FirstOrDefaultAsync();
-            if (seller == null)
+            try
             {
-                seller = new tblSeller();
-               
-                seller.MyShopifyDomain = domain;
-                seller.ShopifyAccessToken = token;
-                seller.Email = shopDetails.Email;
-                seller.PhoneNumber = shopDetails.Phone;
-                seller.UserName = shopDetails.ShopOwner;
-                seller.InstallStatus = "Active";
-                seller.Host = domain.Replace(".myshopify", "");
-                seller.TimezoneOffset = GetTimezoneOffset(shopDetails.Timezone);
-                seller.ShopName = shopDetails.Name;
-                seller.ShopDomain = shopDetails.Domain;
-                seller.CreatedDateTime = DateTime.Now;
-                db.tblSellers.Add(seller);
-            }
-            else
-            {
-                seller.MyShopifyDomain = domain;
-                seller.ShopifyAccessToken = token;
-                seller.Email = shopDetails.Email;
-                seller.PhoneNumber = shopDetails.Phone;
-                seller.UserName = shopDetails.ShopOwner;
-                seller.InstallStatus = "Active";
-                seller.Host = domain.Replace(".myshopify", "");
-                seller.TimezoneOffset = GetTimezoneOffset(shopDetails.Timezone);
-                seller.ShopName = shopDetails.Name;
-                seller.ShopDomain = shopDetails.Domain;
-                db.Entry(seller).State = EntityState.Modified;
-            }
+                if (seller == null)
+                {
+                    seller = new tblSeller();
 
-         
-             await db.SaveChangesAsync();
-           
+                    seller.MyShopifyDomain = domain;
+                    seller.ShopifyAccessToken = token;
+                    seller.Email = shopDetails.Email;
+                    seller.PhoneNumber = shopDetails.Phone;
+                    seller.UserName = shopDetails.ShopOwner;
+                    seller.InstallStatus = "Active";
+                    seller.Host = domain.Replace(".myshopify", "");
+                    seller.TimezoneOffset = GetTimezoneOffset(shopDetails.Timezone);
+                    seller.ShopName = shopDetails.Name;
+                    seller.ShopDomain = shopDetails.Domain;
+                    seller.CreatedDateTime = DateTime.Now;
+                    db.tblSellers.Add(seller);
+                }
+                else
+                {
+                    seller.MyShopifyDomain = domain;
+                    seller.ShopifyAccessToken = token;
+                    seller.Email = shopDetails.Email;
+                    seller.PhoneNumber = shopDetails.Phone;
+                    seller.UserName = shopDetails.ShopOwner;
+                    seller.InstallStatus = "Active";
+                    seller.Host = domain.Replace(".myshopify", "");
+                    seller.TimezoneOffset = GetTimezoneOffset(shopDetails.Timezone);
+                    seller.ShopName = shopDetails.Name;
+                    seller.ShopDomain = shopDetails.Domain;
+                    db.Entry(seller).State = EntityState.Modified;
+                }
+
+
+                await db.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                string exception = ex.Message;
+                if (ex.InnerException != null)
+                    exception = ex.InnerException.Message;
+                LoggerFunctions.FileHelper.WriteExceptionMessage("Global", "SaveSellerDetails", "SellerService.cs", exception);
+
+            }
         }
 
         public async  Task<bool> CreateWebhook(string domain, string token)
@@ -115,27 +129,29 @@ namespace OCP_Import.Service
             }
             catch (ShopifyException e)
             {
+              
+                LoggerFunctions.FileHelper.WriteExceptionMessage("Global", LogStatus: "ERROR", LogErrorMessage: "Error on creating webhook");
                 throw e;
             }
             return isSuccess;
         }
 
         public async Task UpdateSellerDetails(Models.EDM.tblSeller seller) {
-            db.Entry(seller).State = EntityState.Modified;
-            await db.SaveChangesAsync();
+            try
+            {
+                db.Entry(seller).State = EntityState.Modified;
+                await db.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                string exception = ex.Message;
+                if (ex.InnerException != null)
+                    exception = ex.InnerException.Message;
+            
+
+                LoggerFunctions.FileHelper.WriteExceptionMessage("Global", "UpdateSellerDetails", "SellerService.cs", "INFO", exception);
+            }
         }
-
-
-        public Helper.ProductCatalogImport ReadCSV() {
-
-            var h = new OCP_Import.Helper.Utility();
-            var filePath = HttpContext.Current.Server.MapPath("~/xmldata/catalog.xml");
-           var products= h.DeserializeToObject<Helper.ProductCatalogImport>(filePath);
-
-            return products;
-        }
-
-
 
         public  string GetTimezoneOffset(string timezoneOffset)
         {
@@ -159,6 +175,9 @@ namespace OCP_Import.Service
             }
             return timezoneOffset;
         }
+
+       
+
 
 
         #region IDisposable Support

@@ -1,0 +1,9 @@
+DateTime:Status:Controller:Action:Method
+Message
+Inner Exception Message
+-----------------------------------------------------
+
+10:14:2020 05:19:42 PM,917 :INFO:::
+Message => File Removed Successfully | file Name:Controller
+10:14:2020 05:21:48 PM,730 :INFO:::
+Message => File Removed Successfully | file Name:Controller

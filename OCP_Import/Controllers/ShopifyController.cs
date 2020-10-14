@@ -25,6 +25,8 @@ namespace OCP_Import.Controllers
             
             if (!AuthorizationService.IsAuthenticRequest(Request.QueryString.ToKvps(), ApplicationEngine.ShopifySecretKeyPublicApp))
             {
+                LoggerFunctions.FileHelper.WriteExceptionMessage("Global", LogStatus: "ERROR", LogErrorMessage: "Invalid Request on HandShake method Shopify Controller");
+
                 throw new Exception("Request is not authentic.");
             }
             else
@@ -51,6 +53,7 @@ namespace OCP_Import.Controllers
                         if (!await AuthorizationService.IsValidShopDomainAsync(shop))
                         {
                             ModelState.AddModelError("", "The URL you entered is not a valid *.myshopify.com URL.");
+                            LoggerFunctions.FileHelper.WriteExceptionMessage("Global", LogStatus: "ERROR", LogErrorMessage: "Invalid Doamin "+shop+" method Handshake on ShopifyController");
 
                             //Preserve the user's shopUrl so they don't have to type it in again.
                             //ViewBag.ShopUrl = shop;
@@ -120,6 +123,8 @@ namespace OCP_Import.Controllers
             //Validate the signature of the request to ensure that it's valid
             if (!AuthorizationService.IsAuthenticRequest(Request.QueryString.ToKvps(), ApplicationEngine.ShopifySecretKeyPublicApp))
             {
+                LoggerFunctions.FileHelper.WriteExceptionMessage("Global", LogStatus: "ERROR", LogErrorMessage: "Invalid Doamin " + shop + " method AuthResult on ShopifyController");
+
                 //The request is invalid and should not be processed.
                 throw new Exception("Request is not authentic.");
             }
@@ -162,84 +167,86 @@ namespace OCP_Import.Controllers
             }
         }
 
-        public async Task<ActionResult> Charge()
-        {
-            RecurringCharge charge = new RecurringCharge()
-            {
-                Name = "OCP Import",
-                Price = 0,
-                ReturnUrl = ApplicationEngine.ReturnUrl_Charge,
-                Test = true,
-                TrialDays = 0
-            };
+        //public async Task<ActionResult> Charge()
+        //{
+        //    RecurringCharge charge = new RecurringCharge()
+        //    {
+        //        Name = "OCP Import",
+        //        Price = 0,
+        //        ReturnUrl = ApplicationEngine.ReturnUrl_Charge,
+        //        Test = true,
+        //        TrialDays = 0
+        //    };
            
-            //Create the charge
-            charge = await new RecurringChargeService(Convert.ToString(Session["domain"]), Convert.ToString(Session["token"])).CreateAsync(charge);
-            ViewBag.ConfirmationURL = charge.ConfirmationUrl;
-            return View();
-            //return RedirectPermanent(charge.ConfirmationUrl);
-        }
+        //    //Create the charge
+        //    charge = await new RecurringChargeService(Convert.ToString(Session["domain"]), Convert.ToString(Session["token"])).CreateAsync(charge);
+        //    ViewBag.ConfirmationURL = charge.ConfirmationUrl;
+        //    return View();
+        //    //return RedirectPermanent(charge.ConfirmationUrl);
+        //}
 
-        public async Task<ActionResult> ChargeResult(string shop, long charge_id)
-        {
-            string domain = Convert.ToString(Session["domain"]), token = Convert.ToString(Session["token"]);
+        //public async Task<ActionResult> ChargeResult(string shop, long charge_id)
+        //{
+        //    string domain = Convert.ToString(Session["domain"]), token = Convert.ToString(Session["token"]);
 
-            if (domain == "" || token == "")
-            {
-                return RedirectToAction("Handshake", "Shopify", new { shop = shop });
-            }
+        //    if (domain == "" || token == "")
+        //    {
+        //        return RedirectToAction("Handshake", "Shopify", new { shop = shop });
+        //    }
 
-            var service = new RecurringChargeService(domain, token);
+        //    var service = new RecurringChargeService(domain, token);
 
-            RecurringCharge charge;
+        //    RecurringCharge charge;
 
-            //Try to get the charge. If a "404 Not Found" exception is thrown, the charge has been deleted.
-            try
-            {
-                charge = await service.GetAsync(charge_id);
-            }
-            catch (ShopifyException e)
-                when (e.Message.Equals("Not found", StringComparison.OrdinalIgnoreCase))
-            {
-                //The charge has been deleted. Redirect the user to accept a new charge.
-                return RedirectToAction("Charge", "Shopify");
-            }
+        //    //Try to get the charge. If a "404 Not Found" exception is thrown, the charge has been deleted.
+        //    try
+        //    {
+        //        charge = await service.GetAsync(charge_id);
+        //    }
+        //    catch (ShopifyException e)
+        //        when (e.Message.Equals("Not found", StringComparison.OrdinalIgnoreCase))
+        //    {
+        //        //The charge has been deleted. Redirect the user to accept a new charge.
+        //        return RedirectToAction("Charge", "Shopify");
+        //    }
 
-            //Ensure the charge can be activated
-            if (charge.Status != "accepted")
-            {
-                ViewBag.domain1 = domain;
-                return View();
-                //Charge has not been accepted. Redirect the user to accept a new charge.
-                //return RedirectToAction("Charge", "Shopify");
-            }
+        //    //Ensure the charge can be activated
+        //    if (charge.Status != "accepted")
+        //    {
+        //        ViewBag.domain1 = domain;
+        //        return View();
+        //        //Charge has not been accepted. Redirect the user to accept a new charge.
+        //        //return RedirectToAction("Charge", "Shopify");
+        //    }
 
-            #region SaveDetailsToDBIfAccepted
-            if (charge.Status == "accepted")
-            {
-                var shopService = new ShopService(domain, token);
-                var shopDetails = await shopService.GetAsync();
+        //    #region SaveDetailsToDBIfAccepted
+        //    if (charge.Status == "accepted")
+        //    {
+        //        var shopService = new ShopService(domain, token);
+        //        var shopDetails = await shopService.GetAsync();
 
-                //Save Seller Details to DB
-                 await _iSellerService.SaveSellerDetails(domain, token, shopDetails);
+        //        //Save Seller Details to DB
+        //         await _iSellerService.SaveSellerDetails(domain, token, shopDetails);
 
-                //Activate the charge
-                await service.ActivateAsync(charge_id);
+        //        //Activate the charge
+        //        await service.ActivateAsync(charge_id);
 
-                //Create the AppUninstalled webhook
-                await _iSellerService.CreateWebhook(domain, token);
+        //        //Create the AppUninstalled webhook
+        //        await _iSellerService.CreateWebhook(domain, token);
 
-            }
+        //    }
 
-            #endregion
+        //    #endregion
 
-            return RedirectToAction("Index", "Home");
-        }
+        //    return RedirectToAction("Index", "Home");
+        //}
 
         public async Task<string> AppUninstalled(string domain)
         {
             if (!await AuthorizationService.IsAuthenticWebhook(Request.Headers.ToKvps(), Request.InputStream, ApplicationEngine.ShopifySecretKeyPublicApp))
             {
+                LoggerFunctions.FileHelper.WriteExceptionMessage("Global", LogStatus: "ERROR", LogErrorMessage: "request not authentic method ApplicationUninstall on ShopifyController");
+
                 throw new UnauthorizedAccessException("This request is not an authentic webhook request.");
             }
             try
@@ -255,7 +262,8 @@ namespace OCP_Import.Controllers
             }
             catch (Exception ex)
             {
-            //    LogResult.WriteErrorToDB(ex.Message, ex.StackTrace, domain, "error occured in app uninstalled webhook");
+                LoggerFunctions.FileHelper.WriteExceptionMessage("Global", LogStatus: "ERROR", LogErrorMessage: "request not authentic method ApplicationUninstall on ShopifyController",LogInnerErrorMessage:ex.Message);
+
             }
 
             return "Handled AppUninstalled Webhook.";

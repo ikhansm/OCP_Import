@@ -8,31 +8,17 @@ using System.Web;
 using OCP_Import.Helper;
 using System.Net;
 using System.IO;
-using Renci.SshNet;
-using Renci.SshNet.Sftp;
+using Unity;
+
 namespace OCP_Import.Service
 {
     public class ProductService:IService.IProductService,IDisposable
     {
         private Models.EDM.db_OCP_ImportEntities db = new Models.EDM.db_OCP_ImportEntities();
 
-
-        public Helper.ProductCatalogImport ReadCSV(int sellerId)
-        {
-
-            var h = new OCP_Import.Helper.Utility();
-            var appPath = System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath;
-            var filePath = Path.Combine(appPath, "DownloadFile/Downloaded_" + sellerId + ".xml");
-            //var filePath = HttpContext.Current.Server.MapPath("~/DownloadFile/Downloaded_"+ sellerId + ".xml");
-            var products = h.DeserializeToObject<Helper.ProductCatalogImport>(filePath);
-
-            return products;
-        }
-
-        public async Task<ShopifySharp.Product> CreateProduct(Helper.Product product, string vendor,string myShopifyDomain, string accessToken)
+        public async Task<ShopifySharp.Product> CreateProduct(ImportServices.Wrapper.Product product, string vendor,string myShopifyDomain, string accessToken,ImportServices.Wrapper.ColorList colorMapping)
         {
             ShopifySharp.ProductService service = new ShopifySharp.ProductService(myShopifyDomain, accessToken);
-
 
             var newProduct = new ShopifySharp.Product()
             {
@@ -47,6 +33,8 @@ namespace OCP_Import.Service
             string colorName = colorList.Distinct().FirstOrDefault().colorName;
             if (!string.IsNullOrEmpty(colorName))
             {
+                colorName= CheckColorMapping(colorMapping,colorName);
+            
                 productHandle += "-" + colorName;
                 productTitle += " " + colorName;
             }
@@ -55,7 +43,8 @@ namespace OCP_Import.Service
             var productTags = new List<string>();
             foreach (var c in distColorList)
             {
-                productTags.Add(product.Name.ToLower() + "-" + c.colorName.ToLower());
+                string _color = CheckColorMapping(colorMapping, c.colorName);
+                productTags.Add(product.Name.ToLower() + "-" + _color.ToLower());
 
 
             }
@@ -66,14 +55,13 @@ namespace OCP_Import.Service
             foreach (var pv in product.ProductVariants.ProductVariant)
             {
                 var _pv = new ShopifySharp.ProductVariant();
-
+                string variant_color = CheckColorMapping(colorMapping, pv.ColorName);
                 _pv.SKU = product.Name.Replace(" ", "-").ToUpper();
-                _pv.Option1 = pv.ColorName.ToUpper();
+                _pv.Option1 = variant_color;
                 _pv.Option2 = pv.SizeName;
                 _pv.Option3 = pv.ColorCode;
                 _pv.TaxCode = "PC040144";
-                _pv.Title = $@"{pv.ColorName.ToUpper()} /\ {pv.SizeName} /\ {pv.ColorCode}";
-
+                _pv.Title = $@"{pv.ColorName.ToUpper()} /\ {pv.SizeName} /\ {variant_color}";
                 _pv.Price = Convert.ToDecimal(pv.ProductVariantSources.ProductVariantSource.Price);
                 _pv.InventoryQuantity = Convert.ToInt32(pv.Quantity);
                 _pvList.Add(_pv);
@@ -103,18 +91,13 @@ namespace OCP_Import.Service
             if (exist != null)
             {
               
-
                 foreach (var p in exist)
                 {
 
                     var existingPV = p.Variants;
-                    //var commonVar = from newPro in productVariants join oldVar in existingPV
-                    //                on newPro.Option1 equals oldVar.Option1 
-
                     var result = from x in productVariants
                                  join y in existingPV
-                   on new { X1 = x.Option1, X2 = x.Option2 } equals new { X1 = y.Option1, X2 = y.Option2 }
-                                 select x;
+                    on new { X1 = x.Option1, X2 = x.Option2 } equals new { X1 = y.Option1, X2 = y.Option2 } select x;
                     var newVariants = productVariants.Where(p1 => !result.Any(p2 => p2.Option1 == p1.Option1 && p2.Option2 == p1.Option2));
                     if (newVariants != null)
                     {
@@ -128,7 +111,6 @@ namespace OCP_Import.Service
                     }
 
                 }
-
 
             }
             else
@@ -163,13 +145,26 @@ namespace OCP_Import.Service
                 }
                 catch (Exception ex)
                 {
+                    string exception = ex.Message;
+                    if (ex.InnerException != null)
+                        exception = ex.InnerException.Message;
+                    LoggerFunctions.FileHelper.WriteExceptionMessage("Global", "Error in CreateProduct method ", "ProductService.cs", "ERROR", exception);
+
 
                 }
             }
             return newProduct;
         }
 
+        public string CheckColorMapping(ImportServices.Wrapper.ColorList clist, string colorName)
+        {
+            if (clist.ColorMapping.Where(x => x.COLOR_NAME == colorName.ToUpper()).Count() > 0)
+            {
+                colorName = clist.ColorMapping.Where(x => x.COLOR_NAME == colorName.ToUpper()).FirstOrDefault().WEB_FRIENDLY_COLOR_NAME;
+            }
 
+           return colorName.ToUpper();
+        }
         public async Task<IEnumerable<ShopifySharp.Product>> GetProductByHandle(string handle, ShopifySharp.ProductService service)
         {
             ShopifySharp.Filters.ProductListFilter filter = new ShopifySharp.Filters.ProductListFilter();
@@ -178,10 +173,12 @@ namespace OCP_Import.Service
             return data.Items;
         }
 
-
         public async Task<bool> ProcessXmlProducts(int sellerId) {
             var seller =await db.tblSellers.Where(x => x.SellerId == sellerId).FirstOrDefaultAsync();
-            var xmlData = ReadCSV(sellerId);
+            var container = new Unity.UnityContainer();
+           var sst= container.Resolve<ImportServices.Service.Service>();
+            var xmlData =sst.ReadCSV(sellerId);
+            var colorMappingList = sst.GetColorFamily("ColorMapping/COLOR_MAPPING.xml");
             var result = false;
             var vendor = xmlData.ProductAttributeGroups.ProductAttributeGroup.ProductAttributeGroupCode;
             var plist = xmlData.Products.Product;
@@ -189,13 +186,21 @@ namespace OCP_Import.Service
             {
                 try
                 {
-                    var _p = await CreateProduct(p, vendor, seller.MyShopifyDomain,seller.ShopifyAccessToken);
+                    var _p = await CreateProduct(p, vendor, seller.MyShopifyDomain,seller.ShopifyAccessToken, colorMappingList);
                 }
                 catch (Exception ex)
                 {
+
                     result = true;
+                    string exception = ex.Message;
+                    if (ex.InnerException != null)
+                        exception = ex.InnerException.Message;
+                    LoggerFunctions.FileHelper.WriteExceptionMessage("Global", "Error in ProcessXmlProducts method ", "ProductService.cs", "ERROR", exception);
+
+
+
                 }
-                }
+            }
 
             return result;
         
@@ -274,6 +279,11 @@ namespace OCP_Import.Service
                 {
                      result = false;
                     resultMessage = ex.Message;
+                    string exception = ex.Message;
+                    if (ex.InnerException != null)
+                        exception = ex.InnerException.Message;
+                    LoggerFunctions.FileHelper.WriteExceptionMessage("Global", "Error in SaveSchedulerSettings method while updating scheduler settings data", "ProductService.cs", "ERROR", exception);
+
                 }
 
 
@@ -288,6 +298,11 @@ namespace OCP_Import.Service
             {
                 result = false;
                 resultMessage = ex.Message;
+                string exception = ex.Message;
+                if (ex.InnerException != null)
+                    exception = ex.InnerException.Message;
+                LoggerFunctions.FileHelper.WriteExceptionMessage("Global", "Error in SaveSchedulerSettings while creating scheduler", "ProductService.cs", "ERROR", exception);
+
             }
 
 
@@ -295,142 +310,35 @@ namespace OCP_Import.Service
         
         }
 
-
-        public void DownloadFileFTP() {
-            try
-            {
-
-                String RemoteFtpPath = $@"{ApplicationEngine.FTP_Host+ApplicationEngine.FTP_File_Path}/test.txt";
-                String LocalDestinationPath = HttpContext.Current.Server.MapPath("~/DownloadFile");
-                String Username = ApplicationEngine.FTP_User_Name;
-                String Password = ApplicationEngine.FTP_Password;
-
-                //   Boolean UsePassive = true;
-
-                FtpWebRequest request = (FtpWebRequest)WebRequest.Create(new Uri(RemoteFtpPath));
-                // request.EnableSsl = false;
-                request.Method = WebRequestMethods.Ftp.DownloadFile;
-                request.Proxy = null;
-
-                request.UsePassive = true;
-                request.UseBinary = true;
-                request.KeepAlive = true;
-                System.Net.ServicePointManager.Expect100Continue = false;
-                request.Credentials = new NetworkCredential(Username, Password);
-
-                FtpWebResponse response = (FtpWebResponse)request.GetResponse();
-
-                Stream responseStream = response.GetResponseStream();
-                StreamReader reader = new StreamReader(responseStream);
-
-                using (FileStream writer = new FileStream(LocalDestinationPath, FileMode.Create))
-                {
-
-                    long length = response.ContentLength;
-                    int bufferSize = 2048;
-                    int readCount;
-                    byte[] buffer = new byte[2048];
-
-                    readCount = responseStream.Read(buffer, 0, bufferSize);
-                    while (readCount > 0)
-                    {
-                        writer.Write(buffer, 0, readCount);
-                        readCount = responseStream.Read(buffer, 0, bufferSize);
-                    }
-                }
-
-                reader.Close();
-                response.Close();
-            }
-            catch (Exception ex)
-            { }
-            //       String LocalDestinationPath = HttpContext.Current.Server.MapPath("~/DownloadFile");
-            //         Helper.Utility.FTPDownload(LocalDestinationPath, "test.txt", ApplicationEngine.FTP_Host+ ApplicationEngine.FTP_File_Path+ "/test.txt", ApplicationEngine.FTP_User_Name, ApplicationEngine.FTP_Password);
-        }
-
-
-        public bool DownloadFileSFTP(string host, string username,string password, string pathRemoteFile,int sellerId)
-        {
-            bool downloadresult = false;
-            // Path to file on SFTP server
-          //   string pathRemoteFile = $@"{ApplicationEngine.FTP_File_Path}/test.txt";
-            // Path where the file should be saved once downloaded (locally)
-          //  string pathLocalFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "download_sftp_file.txt");
-            //String pathLocalFile = HttpContext.Current.Server.MapPath("~/DownloadFile/Downloaded_"+ sellerId + ".xml");
-            var appPath = System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath;
-            var pathLocalFile = Path.Combine(appPath, "DownloadFile/Downloaded_" + sellerId + ".xml");
-            if (!System.IO.File.Exists(pathLocalFile))
-            {
-                try
-                {
-                    System.IO.File.Create(pathLocalFile).Dispose();
-                }catch(Exception ex) { }
-            }
-
-            using (SftpClient sftp = new SftpClient(host, username, password))
-            {
-                try
-                {
-                    sftp.Connect();
-
-                    var files = sftp.ListDirectory(pathRemoteFile).Where(f => !f.IsDirectory);
-
-                  //  foreach (var file in files)
-                   // {
-                   //     var filename = $"{pathRemoteFile}/{file.Name}";
-                  //      if (!File.Exists(filename))
-                  //      {
-                         //   Console.WriteLine("Downloading  " + file.FullName);
-                          //  var localFile = File.OpenWrite(filename);
-                          //  sftp.DownloadFile(file.FullName, localFile);
-                   //     }
-                  //  }
-                    var lastUpdatedFile = files.OrderByDescending(x => x.LastWriteTime).FirstOrDefault();
-                    if (lastUpdatedFile != null)
-                    { 
-                        
-                        using (Stream fileStream = File.OpenWrite(pathLocalFile))
-                        {
-
-                            sftp.DownloadFile(pathRemoteFile+"/"+ lastUpdatedFile.Name, fileStream);
-                            downloadresult = true;
-                        }
-
-
-
-                    }
-                  
-
-                    sftp.Disconnect();
-                }
-                catch (Exception er)
-                {
-                 //   Console.WriteLine("An exception has been caught " + er.ToString());
-                }
-            }
-            return downloadresult;
-            //       String LocalDestinationPath = HttpContext.Current.Server.MapPath("~/DownloadFile");
-            //         Helper.Utility.FTPDownload(LocalDestinationPath, "test.txt", ApplicationEngine.FTP_Host+ ApplicationEngine.FTP_File_Path+ "/test.txt", ApplicationEngine.FTP_User_Name, ApplicationEngine.FTP_Password);
-        }
-
-
         public async Task SyncProducts(int sellerId)
         {
+            try
+            {
+                var container = new Unity.UnityContainer();
+                var _importService = container.Resolve<ImportServices.Service.Service>();
+                var seller = await db.tblSchedulerSettings.Where(x => x.SellerId == sellerId).FirstOrDefaultAsync();
+                var downloadResult = _importService.DownloadFileSFTP(seller.FtpHost, seller.FtpUserName, seller.FtpPassword, seller.FtpFilePath, sellerId);
 
-            var seller = await db.tblSchedulerSettings.Where(x => x.SellerId == sellerId).FirstOrDefaultAsync();
-            var downloadResult = DownloadFileSFTP(seller.FtpHost, seller.FtpUserName, seller.FtpPassword, seller.FtpFilePath, sellerId);
-            if (downloadResult == true)
+                if (downloadResult == true)
+                {
+
+                    await ProcessXmlProducts(sellerId);
+
+                }
+            }
+            catch (Exception ex)
             {
 
-                await ProcessXmlProducts(sellerId);
+                string exception = ex.Message;
+                if (ex.InnerException != null)
+                    exception = ex.InnerException.Message;
+                LoggerFunctions.FileHelper.WriteExceptionMessage("Global", "Error in SyncProducts method ", "ProductService.cs", "ERROR", exception);
+
 
             }
 
 
-
         }
-
-
 
         public async Task CreateScheduler(string time, int jobId)
         {
@@ -444,6 +352,31 @@ namespace OCP_Import.Service
 
 
         }
+
+
+        public async Task<bool> ReScheduleAllJobs()
+        {
+            try
+            {
+                var sellers = db.tblSchedulerSettings.ToList();
+                foreach (var s in sellers)
+                {
+                    await CreateScheduler(s.SyncTime, s.tblSeller.SellerId);
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                string exception = ex.Message;
+                if (ex.InnerException != null)
+                    exception = ex.InnerException.Message;
+                LoggerFunctions.FileHelper.WriteExceptionMessage("Global", "Error in ReScheduleAllJobs while ReScheduling scheduler", "ProductService.cs", "ERROR", exception);
+
+                return false;
+            }
+            
+        }
+
 
         #region IDisposable Support
         private bool disposedValue = false; // To detect redundant calls
@@ -486,6 +419,6 @@ namespace OCP_Import.Service
         #endregion
 
 
-
     }
+
 }
