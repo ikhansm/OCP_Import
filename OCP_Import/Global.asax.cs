@@ -23,8 +23,8 @@ namespace OCP_Import
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             ProductService ps = new ProductService();
-            Task<bool> task = ps.ReScheduleAllJobs();
-            var result= task.Result;
+          //  Task<bool> task = ps.ReScheduleAllJobs();
+          //  var result= task.Result;
          
         }
 

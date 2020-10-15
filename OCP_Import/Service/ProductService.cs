@@ -181,26 +181,52 @@ namespace OCP_Import.Service
             var colorMappingList = sst.GetColorFamily("ColorMapping/COLOR_MAPPING.xml");
             var result = false;
             var vendor = xmlData.ProductAttributeGroups.ProductAttributeGroup.ProductAttributeGroupCode;
-            var plist = xmlData.Products.Product;
+            var plist = xmlData.Products.Product.Take(10);
+            List<ImportServices.Wrapper.Product> successList = new List<ImportServices.Wrapper.Product>();
+            List<ImportServices.Wrapper.Product> errorList = new List<ImportServices.Wrapper.Product>();
+
             foreach (var p in plist)
             {
                 try
                 {
                     var _p = await CreateProduct(p, vendor, seller.MyShopifyDomain,seller.ShopifyAccessToken, colorMappingList);
+                    successList.Add(p);
                 }
                 catch (Exception ex)
                 {
-
+                    errorList.Add(p);
                     result = true;
                     string exception = ex.Message;
                     if (ex.InnerException != null)
                         exception = ex.InnerException.Message;
                     LoggerFunctions.FileHelper.WriteExceptionMessage("Global", "Error in ProcessXmlProducts method ", "ProductService.cs", "ERROR", exception);
-
-
-
                 }
+
+              
+
             }
+           
+            if (successList != null)
+            {
+                  xmlData.Products.Product = new List<ImportServices.Wrapper.Product>();
+                  xmlData.Products.Product.AddRange(successList);
+                  var sSetting = seller.tblSchedulerSettings.FirstOrDefault();
+                    var filename = seller.MyShopifyDomain;
+                  sst.CreateFileSFTP(sSetting.FtpHost, sSetting.FtpUserName, sSetting.FtpPassword, sSetting.FtpFilePath, "success", filename, xmlData);
+                }
+            if (errorList != null)
+            {
+                xmlData.Products.Product = new List<ImportServices.Wrapper.Product>();
+                xmlData.Products.Product.AddRange(errorList);
+                var sSetting = seller.tblSchedulerSettings.FirstOrDefault();
+                var filename = seller.MyShopifyDomain;
+                sst.CreateFileSFTP(sSetting.FtpHost, sSetting.FtpUserName, sSetting.FtpPassword, sSetting.FtpFilePath, "error", filename, xmlData);
+
+
+            }
+
+
+
 
             return result;
         
@@ -319,9 +345,8 @@ namespace OCP_Import.Service
                 var seller = await db.tblSchedulerSettings.Where(x => x.SellerId == sellerId).FirstOrDefaultAsync();
                 var downloadResult = _importService.DownloadFileSFTP(seller.FtpHost, seller.FtpUserName, seller.FtpPassword, seller.FtpFilePath, sellerId);
 
-                if (downloadResult == true)
+                if (downloadResult.Item1 == true)
                 {
-
                     await ProcessXmlProducts(sellerId);
 
                 }

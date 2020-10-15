@@ -9,9 +9,10 @@ namespace ImportServices.IService
    public interface IService
     {
         Wrapper.ProductCatalogImport ReadCSV(int sellerId);
-        bool DownloadFileSFTP(string host, string username, string password, string pathRemoteFile, int sellerId);
+        Tuple<bool, string> DownloadFileSFTP(string host, string username, string password, string pathRemoteFile, int sellerId);
 
         Wrapper.ColorList GetColorFamily(string filePath);
+         bool CreateFileSFTP(string host, string username, string password, string _path, string folder, string fileName, Wrapper.ProductCatalogImport products);
 
     }
 }
