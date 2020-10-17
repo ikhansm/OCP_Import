@@ -1,4 +1,5 @@
-﻿using OCP_Import.Helper;
+﻿using LogMaker;
+using OCP_Import.Helper;
 using OCP_Import.Models.EDM;
 using ShopifySharp;
 using System;
@@ -36,11 +37,7 @@ namespace OCP_Import.Service
                 if (ex.HttpStatusCode == System.Net.HttpStatusCode.Unauthorized && ex.Message == "Error: [API] Invalid API key or access token (unrecognized login or wrong password)")
                 {
                     isExist = false;
-                    string exception = ex.Message;
-                    if (ex.InnerException != null)
-                        exception = ex.InnerException.Message;
-                    LoggerFunctions.FileHelper.WriteExceptionMessage("Global", "ValidateStoreInstalled", "SellerService.cs", exception);
-
+                    Log.Error("Error in ValidateStoreInstalled method in class Sellerservice.cs", ex);
                 }
                 else
                 {
@@ -94,11 +91,7 @@ namespace OCP_Import.Service
             }
             catch (Exception ex)
             {
-                string exception = ex.Message;
-                if (ex.InnerException != null)
-                    exception = ex.InnerException.Message;
-                LoggerFunctions.FileHelper.WriteExceptionMessage("Global", "SaveSellerDetails", "SellerService.cs", exception);
-
+                Log.Error("Error in SaveSellerDetails in SellerService.cs class", ex);
             }
         }
 
@@ -129,8 +122,7 @@ namespace OCP_Import.Service
             }
             catch (ShopifyException e)
             {
-              
-                LoggerFunctions.FileHelper.WriteExceptionMessage("Global", LogStatus: "ERROR", LogErrorMessage: "Error on creating webhook");
+                Log.Error("Error on creating webhook", e);
                 throw e;
             }
             return isSuccess;
@@ -144,12 +136,7 @@ namespace OCP_Import.Service
             }
             catch (Exception ex)
             {
-                string exception = ex.Message;
-                if (ex.InnerException != null)
-                    exception = ex.InnerException.Message;
-            
-
-                LoggerFunctions.FileHelper.WriteExceptionMessage("Global", "UpdateSellerDetails", "SellerService.cs", "INFO", exception);
+                Log.Error("Error in UpdateSellerDetails in SellerService.cs", ex);
             }
         }
 

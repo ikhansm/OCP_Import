@@ -41,7 +41,7 @@ namespace OCP_Import
             // container.LoadConfiguration();
 
             // TODO: Register your type's mappings here.
-            container.RegisterType<ImportServices.IService.IService, ImportServices.Service.Service>();
+            container.RegisterType<ImportService.IService.IService, ImportService.Service.Service>();
             container.RegisterType<IService.ISellerService, Service.SellerService>();
             container.RegisterType<IService.IProductService, Service.ProductService>();
             

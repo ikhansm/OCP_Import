@@ -158,6 +158,9 @@ D:\Projects\Ocp_Import\OCP_Import\bin\roslyn\VBCSCompiler.exe.config
 D:\Projects\Ocp_Import\OCP_Import\bin\Antlr3.Runtime.dll
 D:\Projects\Ocp_Import\OCP_Import\bin\EntityFramework.dll
 D:\Projects\Ocp_Import\OCP_Import\bin\EntityFramework.SqlServer.dll
+D:\Projects\Ocp_Import\OCP_Import\bin\ImportService.dll
+D:\Projects\Ocp_Import\OCP_Import\bin\log4net.dll
+D:\Projects\Ocp_Import\OCP_Import\bin\LogMaker.dll
 D:\Projects\Ocp_Import\OCP_Import\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
 D:\Projects\Ocp_Import\OCP_Import\bin\Microsoft.Data.SqlClient.dll
 D:\Projects\Ocp_Import\OCP_Import\bin\Microsoft.Extensions.Logging.Abstractions.dll
@@ -193,8 +196,13 @@ D:\Projects\Ocp_Import\OCP_Import\bin\Unity.Container.dll
 D:\Projects\Ocp_Import\OCP_Import\bin\Unity.Mvc.dll
 D:\Projects\Ocp_Import\OCP_Import\bin\WebActivatorEx.dll
 D:\Projects\Ocp_Import\OCP_Import\bin\WebGrease.dll
+D:\Projects\Ocp_Import\OCP_Import\bin\Renci.SshNet.dll
+D:\Projects\Ocp_Import\OCP_Import\bin\ImportService.pdb
+D:\Projects\Ocp_Import\OCP_Import\bin\LogMaker.pdb
+D:\Projects\Ocp_Import\OCP_Import\bin\LogMaker.dll.config
 D:\Projects\Ocp_Import\OCP_Import\bin\EntityFramework.xml
 D:\Projects\Ocp_Import\OCP_Import\bin\EntityFramework.SqlServer.xml
+D:\Projects\Ocp_Import\OCP_Import\bin\log4net.xml
 D:\Projects\Ocp_Import\OCP_Import\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
 D:\Projects\Ocp_Import\OCP_Import\bin\Microsoft.Data.SqlClient.pdb
 D:\Projects\Ocp_Import\OCP_Import\bin\Microsoft.Data.SqlClient.xml
@@ -230,6 +238,7 @@ D:\Projects\Ocp_Import\OCP_Import\bin\Antlr3.Runtime.pdb
 D:\Projects\Ocp_Import\OCP_Import\bin\System.Net.Http.Formatting.xml
 D:\Projects\Ocp_Import\OCP_Import\bin\System.Web.Http.xml
 D:\Projects\Ocp_Import\OCP_Import\bin\System.Web.Http.WebHost.xml
+D:\Projects\Ocp_Import\OCP_Import\bin\Renci.SshNet.xml
 D:\Projects\Ocp_Import\OCP_Import\bin\de\Microsoft.Data.SqlClient.resources.dll
 D:\Projects\Ocp_Import\OCP_Import\bin\es\Microsoft.Data.SqlClient.resources.dll
 D:\Projects\Ocp_Import\OCP_Import\bin\fr\Microsoft.Data.SqlClient.resources.dll
@@ -240,14 +249,8 @@ D:\Projects\Ocp_Import\OCP_Import\bin\pt-BR\Microsoft.Data.SqlClient.resources.d
 D:\Projects\Ocp_Import\OCP_Import\bin\ru\Microsoft.Data.SqlClient.resources.dll
 D:\Projects\Ocp_Import\OCP_Import\bin\zh-Hans\Microsoft.Data.SqlClient.resources.dll
 D:\Projects\Ocp_Import\OCP_Import\bin\zh-Hant\Microsoft.Data.SqlClient.resources.dll
+D:\Projects\Ocp_Import\OCP_Import\obj\Debug\OCP_Import.csprojAssemblyReference.cache
 D:\Projects\Ocp_Import\OCP_Import\obj\Debug\OCP_Import.csproj.CoreCompileInputs.cache
 D:\Projects\Ocp_Import\OCP_Import\obj\Debug\OCP_Import.csproj.CopyComplete
 D:\Projects\Ocp_Import\OCP_Import\obj\Debug\OCP_Import.dll
 D:\Projects\Ocp_Import\OCP_Import\obj\Debug\OCP_Import.pdb
-D:\Projects\Ocp_Import\OCP_Import\obj\Debug\OCP_Import.csprojAssemblyReference.cache
-D:\Projects\Ocp_Import\OCP_Import\bin\Renci.SshNet.dll
-D:\Projects\Ocp_Import\OCP_Import\bin\Renci.SshNet.xml
-D:\Projects\Ocp_Import\OCP_Import\bin\SMInventoryItemSync.Infrastructure.LoggerFunctions.dll
-D:\Projects\Ocp_Import\OCP_Import\bin\SMInventoryItemSync.Infrastructure.LoggerFunctions.pdb
-D:\Projects\Ocp_Import\OCP_Import\bin\ImportServices.dll
-D:\Projects\Ocp_Import\OCP_Import\bin\ImportServices.pdb

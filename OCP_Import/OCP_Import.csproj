@@ -53,6 +53,9 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="log4net, Version=2.0.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.11\lib\net45\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=3.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.3.6.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
@@ -683,13 +686,13 @@
     <TypeScriptCompile Include="Scripts\index.d.ts" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ImportServices\ImportServices.csproj">
-      <Project>{9f9c35f5-bb96-4bfc-a462-69bc136a943f}</Project>
-      <Name>ImportServices</Name>
+    <ProjectReference Include="..\ImportService\ImportService.csproj">
+      <Project>{a414033a-a93f-41bc-a397-387ec6b660e5}</Project>
+      <Name>ImportService</Name>
     </ProjectReference>
-    <ProjectReference Include="..\LoggerFunction\LoggerFunctions.csproj">
-      <Project>{72d6d67f-57ff-40f3-8db1-3711aadc56b4}</Project>
-      <Name>LoggerFunctions</Name>
+    <ProjectReference Include="..\LogMaker\LogMaker.csproj">
+      <Project>{64b0139e-d139-4a51-8f2d-bfa3ccea94e5}</Project>
+      <Name>LogMaker</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

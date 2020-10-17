@@ -22,11 +22,13 @@ namespace OCP_Import
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            ProductService ps = new ProductService();
-            Task<bool> task = ps.ReScheduleAllJobs();
-            var result = task.Result;
-            Task removelogTask = LoggerFunctions.JobScheduler.Start();
-            removelogTask.RunSynchronously();
+            
+            log4net.Config.XmlConfigurator.Configure();
+            //   ProductService ps = new ProductService();
+            //   Task<bool> task = ps.ReScheduleAllJobs();
+            //   var result = task.Result;
+            //    Task removelogTask = LoggerFunctions.JobScheduler.Start();
+            //      removelogTask.RunSynchronously();
 
         }
 

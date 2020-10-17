@@ -1,4 +1,5 @@
-﻿using OCP_Import.Service;
+﻿using LogMaker;
+using OCP_Import.Service;
 using Quartz;
 using Quartz.Impl;
 using System;
@@ -110,11 +111,11 @@ namespace OCP_Import.Helper
         private static long JobRunID = 0;
         public async Task Execute(IJobExecutionContext context)
         {
-
+            var jobName = context.JobDetail.Key.Name;
             try
             {
 
-                var jobName = context.JobDetail.Key.Name;
+               
                 int jobId = Convert.ToInt32(jobName.Replace("processpendingfileJob_",""));
 
                 ProductService p = new ProductService();
@@ -127,11 +128,9 @@ namespace OCP_Import.Helper
             }
             catch (System.Exception ex)
             {
-                string exception = ex.Message;
-                if (ex.InnerException != null)
-                    exception = ex.InnerException.Message;
-                    LoggerFunctions.FileHelper.WriteExceptionMessage("Global", "UpdateSellerDetails", "SellerService.cs", "", exception);
-
+               
+                Log.Error("Error in Product Sync Scheduler Job Name = " + jobName, ex);
+                
             }
             finally
             {

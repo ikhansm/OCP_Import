@@ -1,0 +1,19 @@
+2020-10-17 13:55:24,089  (D:\Projects\Ocp_Import\LogMaker\Log.cs:165) ERROR- Error action result called
+2020-10-17 13:55:34,623  (D:\Projects\Ocp_Import\LogMaker\Log.cs:165) ERROR- Error action result called
+2020-10-17 13:57:17,220  (D:\Projects\Ocp_Import\LogMaker\Log.cs:165) ERROR- Error action result called
+2020-10-17 14:11:10,718  (D:\Projects\Ocp_Import\LogMaker\Log.cs:165) ERROR- Error action result called
+2020-10-17 14:11:10,722  (?:?) DEBUG- Batch acquisition of 0 triggers
+2020-10-17 14:11:10,741  (:0) DEBUG- Calling Execute on job group1.job1
+2020-10-17 14:11:23,640  (:0) DEBUG- Trigger instruction : NoInstruction
+2020-10-17 14:11:23,650  (?:?) DEBUG- Batch acquisition of 1 triggers
+2020-10-17 14:11:30,661  (:0) DEBUG- Producing instance of Job 'group1.job1', class=LogMaker.Jobclass
+2020-10-17 14:11:30,662  (?:?) DEBUG- Batch acquisition of 0 triggers
+2020-10-17 14:11:30,663  (:0) DEBUG- Calling Execute on job group1.job1
+2020-10-17 14:11:32,823  (:0) DEBUG- Trigger instruction : NoInstruction
+2020-10-17 14:11:32,824  (?:?) DEBUG- Batch acquisition of 1 triggers
+2020-10-17 14:11:50,672  (:0) DEBUG- Producing instance of Job 'group1.job1', class=LogMaker.Jobclass
+2020-10-17 14:11:50,675  (?:?) DEBUG- Batch acquisition of 0 triggers
+2020-10-17 14:11:50,675  (:0) DEBUG- Calling Execute on job group1.job1
+2020-10-17 14:14:18,411  (D:\Projects\Ocp_Import\LogMaker\Log.cs:165) ERROR- Error action result called
+2020-10-17 14:14:18,420  (?:?) DEBUG- Batch acquisition of 0 triggers
+2020-10-17 14:14:18,465  (:0) DEBUG- Calling Execute on job group1.job1

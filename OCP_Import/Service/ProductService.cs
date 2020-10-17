@@ -9,6 +9,7 @@ using OCP_Import.Helper;
 using System.Net;
 using System.IO;
 using Unity;
+using LogMaker;
 
 namespace OCP_Import.Service
 {
@@ -16,7 +17,7 @@ namespace OCP_Import.Service
     {
         private Models.EDM.db_OCP_ImportEntities db = new Models.EDM.db_OCP_ImportEntities();
 
-        public async Task<ShopifySharp.Product> CreateProduct(ImportServices.Wrapper.Product product, string vendor,string myShopifyDomain, string accessToken,ImportServices.Wrapper.ColorList colorMapping)
+        public async Task<ShopifySharp.Product> CreateProduct(ImportService.Wrapper.Product product, string vendor,string myShopifyDomain, string accessToken,ImportService.Wrapper.ColorList colorMapping)
         {
             ShopifySharp.ProductService service = new ShopifySharp.ProductService(myShopifyDomain, accessToken);
 
@@ -88,7 +89,7 @@ namespace OCP_Import.Service
 
             var exist =await GetProductByHandle(newProduct.Handle, service);
 
-            if (exist != null)
+            if (exist.Count()>0)
             {
               
                 foreach (var p in exist)
@@ -148,15 +149,14 @@ namespace OCP_Import.Service
                     string exception = ex.Message;
                     if (ex.InnerException != null)
                         exception = ex.InnerException.Message;
-                    LoggerFunctions.FileHelper.WriteExceptionMessage("Global", "Error in CreateProduct method ", "ProductService.cs", "ERROR", exception);
-
+                    Log.Error("Error in CreateProduct method in class ProductService.cs", ex, vendor);
 
                 }
             }
             return newProduct;
         }
 
-        public string CheckColorMapping(ImportServices.Wrapper.ColorList clist, string colorName)
+        public string CheckColorMapping(ImportService.Wrapper.ColorList clist, string colorName)
         {
             if (clist.ColorMapping.Where(x => x.COLOR_NAME == colorName.ToUpper()).Count() > 0)
             {
@@ -176,14 +176,15 @@ namespace OCP_Import.Service
         public async Task<bool> ProcessXmlProducts(int sellerId) {
             var seller =await db.tblSellers.Where(x => x.SellerId == sellerId).FirstOrDefaultAsync();
             var container = new Unity.UnityContainer();
-           var sst= container.Resolve<ImportServices.Service.Service>();
+            
+           var sst= container.Resolve<ImportService.Service.Service>();
             var xmlData =sst.ReadCSV(sellerId);
             var colorMappingList = sst.GetColorFamily("ColorMapping/COLOR_MAPPING.xml");
             var result = false;
             var vendor = xmlData.ProductAttributeGroups.ProductAttributeGroup.ProductAttributeGroupCode;
-            var plist = xmlData.Products.Product.Take(10);
-            List<ImportServices.Wrapper.Product> successList = new List<ImportServices.Wrapper.Product>();
-            List<ImportServices.Wrapper.Product> errorList = new List<ImportServices.Wrapper.Product>();
+            var plist = xmlData.Products.Product;
+            List<ImportService.Wrapper.Product> successList = new List<ImportService.Wrapper.Product>();
+            List<ImportService.Wrapper.Product> errorList = new List<ImportService.Wrapper.Product>();
 
             foreach (var p in plist)
             {
@@ -196,27 +197,25 @@ namespace OCP_Import.Service
                 {
                     errorList.Add(p);
                     result = true;
-                    string exception = ex.Message;
-                    if (ex.InnerException != null)
-                        exception = ex.InnerException.Message;
-                    LoggerFunctions.FileHelper.WriteExceptionMessage("Global", "Error in ProcessXmlProducts method ", "ProductService.cs", "ERROR", exception);
+                   
+                    Log.Error("Error in ProcessXmlProducts method", ex, vendor);
                 }
 
               
 
             }
            
-            if (successList != null)
+            if (successList.Count >0)
             {
-                  xmlData.Products.Product = new List<ImportServices.Wrapper.Product>();
+                  xmlData.Products.Product = new List<ImportService.Wrapper.Product>();
                   xmlData.Products.Product.AddRange(successList);
                   var sSetting = seller.tblSchedulerSettings.FirstOrDefault();
                     var filename = seller.MyShopifyDomain;
                   sst.CreateFileSFTP(sSetting.FtpHost, sSetting.FtpUserName, sSetting.FtpPassword, sSetting.FtpFilePath, "success", filename, xmlData);
                 }
-            if (errorList != null)
+            if (errorList.Count>0)
             {
-                xmlData.Products.Product = new List<ImportServices.Wrapper.Product>();
+                xmlData.Products.Product = new List<ImportService.Wrapper.Product>();
                 xmlData.Products.Product.AddRange(errorList);
                 var sSetting = seller.tblSchedulerSettings.FirstOrDefault();
                 var filename = seller.MyShopifyDomain;
@@ -281,6 +280,8 @@ namespace OCP_Import.Service
                 {
                      result = false;
                     resultMessage = ex.Message;
+                    Log.Error("Error in SaveSchedulerSettings method in class ProductService.cs while updating scheduler settings data", ex, settingModel.brand);
+
                 }
             }
             else
@@ -305,11 +306,7 @@ namespace OCP_Import.Service
                 {
                      result = false;
                     resultMessage = ex.Message;
-                    string exception = ex.Message;
-                    if (ex.InnerException != null)
-                        exception = ex.InnerException.Message;
-                    LoggerFunctions.FileHelper.WriteExceptionMessage("Global", "Error in SaveSchedulerSettings method while updating scheduler settings data", "ProductService.cs", "ERROR", exception);
-
+                    Log.Error("Error in SaveSchedulerSettings method in class ProductService.cs while creating new entry in settings during settings update", ex, settingModel.brand);
                 }
 
 
@@ -324,10 +321,7 @@ namespace OCP_Import.Service
             {
                 result = false;
                 resultMessage = ex.Message;
-                string exception = ex.Message;
-                if (ex.InnerException != null)
-                    exception = ex.InnerException.Message;
-                LoggerFunctions.FileHelper.WriteExceptionMessage("Global", "Error in SaveSchedulerSettings while creating scheduler", "ProductService.cs", "ERROR", exception);
+                Log.Error("Error in SaveSchedulerSettings method in class ProductService.cs while recreating scheduler during settings update", ex, settingModel.brand);
 
             }
 
@@ -341,7 +335,7 @@ namespace OCP_Import.Service
             try
             {
                 var container = new Unity.UnityContainer();
-                var _importService = container.Resolve<ImportServices.Service.Service>();
+                var _importService = container.Resolve<ImportService.Service.Service>();
                 var seller = await db.tblSchedulerSettings.Where(x => x.SellerId == sellerId).FirstOrDefaultAsync();
                 var downloadResult = _importService.DownloadFileSFTP(seller.FtpHost, seller.FtpUserName, seller.FtpPassword, seller.FtpFilePath, sellerId);
 
@@ -354,10 +348,7 @@ namespace OCP_Import.Service
             catch (Exception ex)
             {
 
-                string exception = ex.Message;
-                if (ex.InnerException != null)
-                    exception = ex.InnerException.Message;
-                LoggerFunctions.FileHelper.WriteExceptionMessage("Global", "Error in SyncProducts method ", "ProductService.cs", "ERROR", exception);
+                Log.Error("Error in SyncProducts method for sellerId = "+sellerId +" in class ProductService.cs ", ex);
 
 
             }
@@ -392,10 +383,7 @@ namespace OCP_Import.Service
             }
             catch (Exception ex)
             {
-                string exception = ex.Message;
-                if (ex.InnerException != null)
-                    exception = ex.InnerException.Message;
-                LoggerFunctions.FileHelper.WriteExceptionMessage("Global", "Error in ReScheduleAllJobs while ReScheduling scheduler", "ProductService.cs", "ERROR", exception);
+                Log.Error("error in Rescheduling jobs during project startup", ex);
 
                 return false;
             }

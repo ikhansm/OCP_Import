@@ -1,4 +1,5 @@
-﻿using OCP_Import.Helper;
+﻿using LogMaker;
+using OCP_Import.Helper;
 using ShopifySharp;
 using ShopifySharp.Enums;
 using System;
@@ -25,8 +26,7 @@ namespace OCP_Import.Controllers
             
             if (!AuthorizationService.IsAuthenticRequest(Request.QueryString.ToKvps(), ApplicationEngine.ShopifySecretKeyPublicApp))
             {
-                LoggerFunctions.FileHelper.WriteExceptionMessage("Global", LogStatus: "ERROR", LogErrorMessage: "Invalid Request on HandShake method Shopify Controller");
-
+                Log.Error("Invalid Request on HandShake method Shopify Controller");
                 throw new Exception("Request is not authentic.");
             }
             else
@@ -53,8 +53,7 @@ namespace OCP_Import.Controllers
                         if (!await AuthorizationService.IsValidShopDomainAsync(shop))
                         {
                             ModelState.AddModelError("", "The URL you entered is not a valid *.myshopify.com URL.");
-                            LoggerFunctions.FileHelper.WriteExceptionMessage("Global", LogStatus: "ERROR", LogErrorMessage: "Invalid Doamin "+shop+" method Handshake on ShopifyController");
-
+                            Log.Error("Invalid Doamin " + shop + " method Handshake on ShopifyController");
                             //Preserve the user's shopUrl so they don't have to type it in again.
                             //ViewBag.ShopUrl = shop;
                             throw new Exception("Invalid URL.");
@@ -123,7 +122,7 @@ namespace OCP_Import.Controllers
             //Validate the signature of the request to ensure that it's valid
             if (!AuthorizationService.IsAuthenticRequest(Request.QueryString.ToKvps(), ApplicationEngine.ShopifySecretKeyPublicApp))
             {
-                LoggerFunctions.FileHelper.WriteExceptionMessage("Global", LogStatus: "ERROR", LogErrorMessage: "Invalid Doamin " + shop + " method AuthResult on ShopifyController");
+                Log.Error("Invalid Doamin " + shop + " method AuthResult on ShopifyController");
 
                 //The request is invalid and should not be processed.
                 throw new Exception("Request is not authentic.");
@@ -245,7 +244,7 @@ namespace OCP_Import.Controllers
         {
             if (!await AuthorizationService.IsAuthenticWebhook(Request.Headers.ToKvps(), Request.InputStream, ApplicationEngine.ShopifySecretKeyPublicApp))
             {
-                LoggerFunctions.FileHelper.WriteExceptionMessage("Global", LogStatus: "ERROR", LogErrorMessage: "request not authentic method ApplicationUninstall on ShopifyController");
+                Log.Error("Domain = "+domain+"  request not authentic method ApplicationUninstall on ShopifyController");
 
                 throw new UnauthorizedAccessException("This request is not an authentic webhook request.");
             }
@@ -262,7 +261,8 @@ namespace OCP_Import.Controllers
             }
             catch (Exception ex)
             {
-                LoggerFunctions.FileHelper.WriteExceptionMessage("Global", LogStatus: "ERROR", LogErrorMessage: "request not authentic method ApplicationUninstall on ShopifyController",LogInnerErrorMessage:ex.Message);
+               
+                Log.Error("Domain = " + domain + "  request not authentic method ApplicationUninstall on ShopifyController");
 
             }
 
