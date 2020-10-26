@@ -1,0 +1,144 @@
+2020-10-26 19:16:49,680  (D:\Projects\Ocp_Import\LogMaker\Log.cs:179) ERROR- Error in SaveSchedulerSettings method in class ProductService.cs while recreating scheduler during settings update
+Quartz.SchedulerException: Repeat Interval cannot be zero.
+   at Quartz.Impl.Triggers.SimpleTriggerImpl.Validate()
+   at Quartz.Core.QuartzScheduler.<ScheduleJob>d__82.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at OCP_Import.Helper.ProcessPendingFilesSchedule.<ProcessPendingFilesScheduleJobSync>d__0.MoveNext() in D:\Projects\Ocp_Import\OCP_Import\Helper\OcpScheduler.cs:line 108
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at OCP_Import.Service.ProductService.<CreateScheduler>d__8.MoveNext() in D:\Projects\Ocp_Import\OCP_Import\Service\ProductService.cs:line 366
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at OCP_Import.Service.ProductService.<SaveSchedulerSettings>d__6.MoveNext() in D:\Projects\Ocp_Import\OCP_Import\Service\ProductService.cs:line 317
+2020-10-26 19:16:54,292  (?:?) DEBUG- Batch acquisition of 0 triggers
+2020-10-26 19:17:23,619  (?:?) DEBUG- Batch acquisition of 0 triggers
+2020-10-26 19:17:52,187  (?:?) DEBUG- Batch acquisition of 0 triggers
+2020-10-26 19:19:35,445  (D:\Projects\Ocp_Import\LogMaker\Log.cs:179) ERROR- Error in SaveSchedulerSettings method in class ProductService.cs while recreating scheduler during settings update
+Quartz.ObjectAlreadyExistsException: Unable to store Job: 'processpendingfileGroup.processpendingfileJob_5', because one already exists with this identification.
+   at Quartz.Simpl.RAMJobStore.StoreJobInternal(IJobDetail newJob, Boolean replaceExisting)
+   at Quartz.Simpl.RAMJobStore.StoreJobAndTrigger(IJobDetail newJob, IOperableTrigger newTrigger, CancellationToken cancellationToken)
+   at Quartz.Core.QuartzScheduler.<ScheduleJob>d__82.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at OCP_Import.Helper.ProcessPendingFilesSchedule.<ProcessPendingFilesScheduleJobSync>d__0.MoveNext() in D:\Projects\Ocp_Import\OCP_Import\Helper\OcpScheduler.cs:line 108
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at OCP_Import.Service.ProductService.<CreateScheduler>d__8.MoveNext() in D:\Projects\Ocp_Import\OCP_Import\Service\ProductService.cs:line 366
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at OCP_Import.Service.ProductService.<SaveSchedulerSettings>d__6.MoveNext() in D:\Projects\Ocp_Import\OCP_Import\Service\ProductService.cs:line 317
+2020-10-26 19:20:03,770  (?:?) DEBUG- Batch acquisition of 0 triggers
+2020-10-26 19:20:04,744  (:0) INFO- Default Quartz.NET properties loaded from embedded resource file
+2020-10-26 19:20:45,754  (?:?) DEBUG- Batch acquisition of 0 triggers
+2020-10-26 19:21:05,349  (:0) INFO- Scheduler QuartzScheduler_$_NON_CLUSTERED started.
+2020-10-26 19:21:05,349  (?:?) DEBUG- Batch acquisition of 0 triggers
+2020-10-26 19:21:44,395  (?:?) DEBUG- Batch acquisition of 0 triggers
+2020-10-26 19:26:55,297  (D:\Projects\Ocp_Import\LogMaker\Log.cs:179) ERROR- Error in SaveSchedulerSettings method in class ProductService.cs while recreating scheduler during settings update
+Quartz.ObjectAlreadyExistsException: Unable to store Job: 'processpendingfileGroup.processpendingfileJob_5', because one already exists with this identification.
+   at Quartz.Simpl.RAMJobStore.StoreJobInternal(IJobDetail newJob, Boolean replaceExisting)
+   at Quartz.Simpl.RAMJobStore.StoreJobAndTrigger(IJobDetail newJob, IOperableTrigger newTrigger, CancellationToken cancellationToken)
+   at Quartz.Core.QuartzScheduler.<ScheduleJob>d__82.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at OCP_Import.Helper.ProcessPendingFilesSchedule.<ProcessPendingFilesScheduleJobSync>d__0.MoveNext() in D:\Projects\Ocp_Import\OCP_Import\Helper\OcpScheduler.cs:line 109
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at OCP_Import.Service.ProductService.<CreateScheduler>d__8.MoveNext() in D:\Projects\Ocp_Import\OCP_Import\Service\ProductService.cs:line 366
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at OCP_Import.Service.ProductService.<SaveSchedulerSettings>d__6.MoveNext() in D:\Projects\Ocp_Import\OCP_Import\Service\ProductService.cs:line 317
+2020-10-26 19:27:16,274  (:0) INFO- Default Quartz.NET properties loaded from embedded resource file
+2020-10-26 19:27:21,789  (?:?) DEBUG- Batch acquisition of 0 triggers
+2020-10-26 19:27:31,238  (:0) INFO- Scheduler QuartzScheduler_$_NON_CLUSTERED started.
+2020-10-26 19:27:31,239  (?:?) DEBUG- Batch acquisition of 0 triggers
+2020-10-26 19:27:55,687  (D:\Projects\Ocp_Import\LogMaker\Log.cs:179) ERROR- Error in SaveSchedulerSettings method in class ProductService.cs while recreating scheduler during settings update
+Quartz.ObjectAlreadyExistsException: Unable to store Job: 'processpendingfileGroup.processpendingfileJob_5', because one already exists with this identification.
+   at Quartz.Simpl.RAMJobStore.StoreJobInternal(IJobDetail newJob, Boolean replaceExisting)
+   at Quartz.Simpl.RAMJobStore.StoreJobAndTrigger(IJobDetail newJob, IOperableTrigger newTrigger, CancellationToken cancellationToken)
+   at Quartz.Core.QuartzScheduler.<ScheduleJob>d__82.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at OCP_Import.Helper.ProcessPendingFilesSchedule.<ProcessPendingFilesScheduleJobSync>d__0.MoveNext() in D:\Projects\Ocp_Import\OCP_Import\Helper\OcpScheduler.cs:line 109
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at OCP_Import.Service.ProductService.<CreateScheduler>d__8.MoveNext() in D:\Projects\Ocp_Import\OCP_Import\Service\ProductService.cs:line 366
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at OCP_Import.Service.ProductService.<SaveSchedulerSettings>d__6.MoveNext() in D:\Projects\Ocp_Import\OCP_Import\Service\ProductService.cs:line 317
+2020-10-26 19:28:00,040  (?:?) DEBUG- Batch acquisition of 0 triggers
+2020-10-26 19:28:06,956  (:0) INFO- Default Quartz.NET properties loaded from embedded resource file
+2020-10-26 19:28:17,527  (:0) INFO- Scheduler QuartzScheduler_$_NON_CLUSTERED started.
+2020-10-26 19:28:17,527  (?:?) DEBUG- Batch acquisition of 0 triggers
+2020-10-26 19:28:23,232  (D:\Projects\Ocp_Import\LogMaker\Log.cs:179) ERROR- Error in SaveSchedulerSettings method in class ProductService.cs while recreating scheduler during settings update
+Quartz.ObjectAlreadyExistsException: Unable to store Job: 'processpendingfileGroup.processpendingfileJob_5', because one already exists with this identification.
+   at Quartz.Simpl.RAMJobStore.StoreJobInternal(IJobDetail newJob, Boolean replaceExisting)
+   at Quartz.Simpl.RAMJobStore.StoreJobAndTrigger(IJobDetail newJob, IOperableTrigger newTrigger, CancellationToken cancellationToken)
+   at Quartz.Core.QuartzScheduler.<ScheduleJob>d__82.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at OCP_Import.Helper.ProcessPendingFilesSchedule.<ProcessPendingFilesScheduleJobSync>d__0.MoveNext() in D:\Projects\Ocp_Import\OCP_Import\Helper\OcpScheduler.cs:line 109
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at OCP_Import.Service.ProductService.<CreateScheduler>d__8.MoveNext() in D:\Projects\Ocp_Import\OCP_Import\Service\ProductService.cs:line 366
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at OCP_Import.Service.ProductService.<SaveSchedulerSettings>d__6.MoveNext() in D:\Projects\Ocp_Import\OCP_Import\Service\ProductService.cs:line 317
+2020-10-26 19:28:46,437  (?:?) DEBUG- Batch acquisition of 0 triggers
+2020-10-26 19:28:48,236  (:0) INFO- Default Quartz.NET properties loaded from embedded resource file
+2020-10-26 19:29:17,405  (?:?) DEBUG- Batch acquisition of 0 triggers
+2020-10-26 19:33:16,091  (D:\Projects\Ocp_Import\LogMaker\Log.cs:179) ERROR- Error in SaveSchedulerSettings method in class ProductService.cs while recreating scheduler during settings update
+Quartz.ObjectAlreadyExistsException: Unable to store Job: 'processpendingfileGroup.processpendingfileJob_5', because one already exists with this identification.
+   at Quartz.Simpl.RAMJobStore.StoreJobInternal(IJobDetail newJob, Boolean replaceExisting)
+   at Quartz.Simpl.RAMJobStore.StoreJobAndTrigger(IJobDetail newJob, IOperableTrigger newTrigger, CancellationToken cancellationToken)
+   at Quartz.Core.QuartzScheduler.<ScheduleJob>d__82.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at OCP_Import.Helper.ProcessPendingFilesSchedule.<ProcessPendingFilesScheduleJobSync>d__0.MoveNext() in D:\Projects\Ocp_Import\OCP_Import\Helper\OcpScheduler.cs:line 109
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at OCP_Import.Service.ProductService.<CreateScheduler>d__8.MoveNext() in D:\Projects\Ocp_Import\OCP_Import\Service\ProductService.cs:line 366
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at OCP_Import.Service.ProductService.<SaveSchedulerSettings>d__6.MoveNext() in D:\Projects\Ocp_Import\OCP_Import\Service\ProductService.cs:line 317
+2020-10-26 19:33:41,080  (?:?) DEBUG- Batch acquisition of 0 triggers
+2020-10-26 19:34:06,939  (?:?) DEBUG- Batch acquisition of 0 triggers
+2020-10-26 19:34:31,334  (?:?) DEBUG- Batch acquisition of 0 triggers
+2020-10-26 19:34:55,205  (?:?) DEBUG- Batch acquisition of 0 triggers
+2020-10-26 19:35:18,668  (?:?) DEBUG- Batch acquisition of 0 triggers

@@ -55,7 +55,7 @@ namespace OCP_Import.Controllers
             //  var downloadResult = ps.DownloadFileSFTP(seller.FtpHost, seller.FtpUserName, seller.FtpPassword, seller.FtpFilePath, 5);
             //       await ps.ProcessXmlProducts(5);
             //    await ps.ProcessXmlProducts(5);
-                await ps.SyncProducts(5);
+       //         await ps.SyncProducts(5);
 
             return View(data);
         }

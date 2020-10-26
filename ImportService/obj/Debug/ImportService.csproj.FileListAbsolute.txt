@@ -2,6 +2,7 @@ D:\Projects\Ocp_Import\ImportService\bin\Debug\ImportService.dll
 D:\Projects\Ocp_Import\ImportService\bin\Debug\ImportService.pdb
 D:\Projects\Ocp_Import\ImportService\bin\Debug\Renci.SshNet.dll
 D:\Projects\Ocp_Import\ImportService\bin\Debug\Renci.SshNet.xml
+D:\Projects\Ocp_Import\ImportService\obj\Debug\ImportService.csprojAssemblyReference.cache
 D:\Projects\Ocp_Import\ImportService\obj\Debug\ImportService.csproj.CoreCompileInputs.cache
 D:\Projects\Ocp_Import\ImportService\obj\Debug\ImportService.csproj.CopyComplete
 D:\Projects\Ocp_Import\ImportService\obj\Debug\ImportService.dll

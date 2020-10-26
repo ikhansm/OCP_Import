@@ -24,11 +24,12 @@ namespace OCP_Import
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             
             log4net.Config.XmlConfigurator.Configure();
-            //   ProductService ps = new ProductService();
-            //   Task<bool> task = ps.ReScheduleAllJobs();
-            //   var result = task.Result;
-            //    Task removelogTask = LoggerFunctions.JobScheduler.Start();
-            //      removelogTask.RunSynchronously();
+               ProductService ps = new ProductService();
+               Task<bool> task = ps.ReScheduleAllJobs();
+               var result = task.Result;
+          //  Task<bool> logscheuduler = LogMaker.JobScheduler.Start();
+         //   var logresult = logscheuduler.Result;
+           
 
         }
 

@@ -122,6 +122,8 @@ E:\AnnCode_Work\OCP_Import\OCP_Import\bin\pt-BR\Microsoft.Data.SqlClient.resourc
 E:\AnnCode_Work\OCP_Import\OCP_Import\bin\ru\Microsoft.Data.SqlClient.resources.dll
 E:\AnnCode_Work\OCP_Import\OCP_Import\bin\zh-Hans\Microsoft.Data.SqlClient.resources.dll
 E:\AnnCode_Work\OCP_Import\OCP_Import\bin\zh-Hant\Microsoft.Data.SqlClient.resources.dll
+D:\Projects\Ocp_Import\OCP_Import\obj\Debug\OCP_Import.csprojAssemblyReference.cache
+D:\Projects\Ocp_Import\OCP_Import\obj\Debug\OCP_Import.csproj.CoreCompileInputs.cache
 D:\Projects\Ocp_Import\OCP_Import\bin\OCP_Import.dll.config
 D:\Projects\Ocp_Import\OCP_Import\bin\OCP_Import.dll
 D:\Projects\Ocp_Import\OCP_Import\bin\OCP_Import.pdb
@@ -249,8 +251,6 @@ D:\Projects\Ocp_Import\OCP_Import\bin\pt-BR\Microsoft.Data.SqlClient.resources.d
 D:\Projects\Ocp_Import\OCP_Import\bin\ru\Microsoft.Data.SqlClient.resources.dll
 D:\Projects\Ocp_Import\OCP_Import\bin\zh-Hans\Microsoft.Data.SqlClient.resources.dll
 D:\Projects\Ocp_Import\OCP_Import\bin\zh-Hant\Microsoft.Data.SqlClient.resources.dll
-D:\Projects\Ocp_Import\OCP_Import\obj\Debug\OCP_Import.csprojAssemblyReference.cache
-D:\Projects\Ocp_Import\OCP_Import\obj\Debug\OCP_Import.csproj.CoreCompileInputs.cache
 D:\Projects\Ocp_Import\OCP_Import\obj\Debug\OCP_Import.csproj.CopyComplete
 D:\Projects\Ocp_Import\OCP_Import\obj\Debug\OCP_Import.dll
 D:\Projects\Ocp_Import\OCP_Import\obj\Debug\OCP_Import.pdb

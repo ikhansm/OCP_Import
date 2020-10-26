@@ -1,0 +1,20 @@
+2020-10-26 19:14:16,362  (D:\Projects\Ocp_Import\LogMaker\Log.cs:157) ERROR- error in Rescheduling jobs during project startup
+2020-10-26 19:14:16,362  (:0) INFO- Scheduler QuartzScheduler_$_NON_CLUSTERED started.
+2020-10-26 19:14:16,362  (?:?) DEBUG- Batch acquisition of 0 triggers
+2020-10-26 19:14:44,139  (?:?) DEBUG- Batch acquisition of 0 triggers
+2020-10-26 19:14:44,139  (:0) INFO- Default Quartz.NET properties loaded from embedded resource file
+2020-10-26 19:14:52,979  (:0) INFO- Scheduler QuartzScheduler_$_NON_CLUSTERED started.
+2020-10-26 19:14:52,979  (?:?) DEBUG- Batch acquisition of 0 triggers
+2020-10-26 19:16:03,892  (D:\Projects\Ocp_Import\LogMaker\Log.cs:157) ERROR- error in Rescheduling jobs during project startup
+2020-10-26 19:16:03,894  (:0) INFO- Scheduler QuartzScheduler_$_NON_CLUSTERED started.
+2020-10-26 19:16:03,894  (?:?) DEBUG- Batch acquisition of 0 triggers
+2020-10-26 19:16:23,251  (:0) INFO- Default Quartz.NET properties loaded from embedded resource file
+2020-10-26 19:16:29,089  (:0) INFO- Scheduler QuartzScheduler_$_NON_CLUSTERED started.
+2020-10-26 19:16:29,089  (?:?) DEBUG- Batch acquisition of 0 triggers
+2020-10-26 19:58:11,586  (D:\Projects\Ocp_Import\LogMaker\Log.cs:157) ERROR- error in Rescheduling jobs during project startup
+2020-10-26 19:58:26,833  (:0) INFO- Default Quartz.NET properties loaded from embedded resource file
+2020-10-26 19:58:31,028  (:0) INFO- Default Quartz.NET properties loaded from embedded resource file
+2020-10-26 20:04:49,674  (D:\Projects\Ocp_Import\LogMaker\Log.cs:157) ERROR- error in Rescheduling jobs during project startup
+2020-10-26 20:05:16,172  (:0) INFO- Default Quartz.NET properties loaded from embedded resource file
+2020-10-26 20:05:17,532  (?:?) DEBUG- Batch acquisition of 0 triggers
+2020-10-26 20:05:20,216  (:0) INFO- Default Quartz.NET properties loaded from embedded resource file

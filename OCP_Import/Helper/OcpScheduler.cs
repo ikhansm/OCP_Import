@@ -29,7 +29,7 @@ namespace OCP_Import.Helper
             await scheduler.Start();
 
             // define the job and tie it to our HelloJob class
-            IJobDetail job = JobBuilder.Create<OcpScheduleJob>()
+            IJobDetail job = JobBuilder.Create<Processforuplodingfile>()
                 .WithIdentity("SMStgxstoreInventoryItemSchedulejob1", "SMStgxstoreInventoryItemSchedulegroup1")
                 .Build();
 
@@ -56,41 +56,97 @@ namespace OCP_Import.Helper
     {
         public async static Task ProcessPendingFilesScheduleJobSync(int fileType, TimeSpan Interval)
         {
+        
+            string startTime = "0 " + Interval.Minutes + " " + Interval.Hours+ " ? * *";
+           
+
             string prefix = "processpendingfile";
             string JobName = prefix + "Job_" + fileType;
             string JobTrigger = prefix + "Trigger_" + fileType;
             string JobGroup = prefix + "Group";
             var jobKey = JobKey.Create(JobName, JobGroup);
             ISchedulerFactory schedFact = new StdSchedulerFactory();
-            IScheduler sched =await schedFact.GetScheduler();
+            IScheduler sched = await schedFact.GetScheduler();
             // define the job
             IJobDetail job = JobBuilder.Create<Processforuplodingfile>().WithIdentity(JobName, JobGroup).Build();
             // define the trigger
             ITrigger ProcessforUplodingfileSyncTrigger = TriggerBuilder.Create()
              .WithIdentity(JobTrigger, JobGroup)
              .StartNow()
-             //.WithSimpleSchedule(x => x.WithInterval(Interval).RepeatForever())
-            // .Build();
-              .WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(Interval.Hours, Interval.Minutes))
-              .ForJob(jobKey)
-               .Build();
+              //.WithSimpleSchedule(x => x.WithInterval(Interval).RepeatForever())
+              // .Build();
+             //  .WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(Interval.Hours, Interval.Minutes))
+              //      .WithSimpleSchedule(x => x
+               //     .WithIntervalInSeconds(20)
+                        //.WithIntervalInHours(RemoveFilesIntervalTime)
+             //           .RepeatForever()).ForJob(jobKey)
+                  //  .Build();
+
+             
+            
+              .WithCronSchedule(startTime).ForJob(jobKey)
+
+
+
+              // .WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(Interval.Hours, Interval.Minutes))
+              ///  .ForJob(jobKey)
+
+
+
+              .Build();
 
 
 
             job.JobDataMap["fileType"] = fileType;
-           await sched.ScheduleJob(job, ProcessforUplodingfileSyncTrigger);
-           await sched.Start();
+            await sched.ScheduleJob(job, ProcessforUplodingfileSyncTrigger);
+            await sched.Start();
+
+
+            //NameValueCollection props = new NameValueCollection
+            //    {
+            //        { "quartz.serializer.type", "binary" }
+            //    };
+            //StdSchedulerFactory factory = new StdSchedulerFactory(props);
+            //IScheduler scheduler = await factory.GetScheduler();
+            //// and start it off
+            //await scheduler.Start();
+            //// define the job and tie it to our Jobclass class
+            //IJobDetail job = JobBuilder.Create<Processforuplodingfile>()
+            //   .WithIdentity(JobName, JobGroup).Build();
+            //// Trigger the job to run now, and then repeat every 10 seconds
+            //ITrigger trigger = TriggerBuilder.Create()
+            //    .WithIdentity(JobTrigger, JobGroup)
+            //    .StartNow()
+            //    .WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(Interval.Hours, Interval.Minutes))
+            //    .ForJob(jobKey)
+            //    //  .WithSimpleSchedule(x => x
+            //    // .WithIntervalInSeconds(20)
+            //    //.WithIntervalInHours(RemoveFilesIntervalTime)
+            //    //        .RepeatForever())
+            //    .Build();
+            //// Tell quartz to schedule the job using our trigger
+            //await scheduler.ScheduleJob(job, trigger);
+
+
+
+
+
+
         }
 
         public async static Task CancelSchedulerJob(int jobId)
         {
-
             string prefix = "processpendingfile";
             string JobName = prefix + "Job_" + jobId;
             string JobGroup = prefix + "Group";
+            var jobKey = JobKey.Create(JobName, JobGroup);
+
+   //         string prefix = "processpendingfile";
+ //           string JobName = prefix + "Job_" + jobId;
+   //         string JobGroup = prefix + "Group";
             ISchedulerFactory schedFact = new StdSchedulerFactory();
             IScheduler sched =await schedFact.GetScheduler();
-            var jobKey = JobKey.Create(JobName,JobGroup);
+     //       var jobKey = JobKey.Create(JobName,JobGroup);
             var jobExist =await sched.CheckExists(jobKey);
             if (jobExist)
             {
@@ -121,9 +177,6 @@ namespace OCP_Import.Helper
                 ProductService p = new ProductService();
                 await  p.SyncProducts(jobId);
                 
-                //var appPath=  System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath;
-                //var fPath = Path.Combine(appPath, "DownloadFile/test.txt");
-                //Helper.Utility.appendToFile(fPath);
 
             }
             catch (System.Exception ex)

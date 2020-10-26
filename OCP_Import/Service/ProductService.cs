@@ -49,7 +49,7 @@ namespace OCP_Import.Service
 
 
             }
-
+            // product variant list created from ftp xml.
             var _pvList = new List<ShopifySharp.ProductVariant>();
             var priceTagList = new List<string>();
 
